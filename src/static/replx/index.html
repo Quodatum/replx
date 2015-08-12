@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>ace test</title>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js" type="text/javascript" charset="utf-8"></script>
+	
+<style type="text/css" media="screen">
+    #editor { 
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+</style>
+</head>
+<body>
+Content
+<div id="editor">
+(:~
+ : stylecheck for basex restxq
+ : apb aug 2014
+ :)
+module namespace  stylecheck = 'apb.stylecheck';
+import module namespace schematron = 'quodatum.schematron' at "compile.sch/schematron.xqm";
+
+declare variable $stylecheck:rules-base:=fn:resolve-uri("./rules/");
+declare variable $stylecheck:errs2xsl:=doc("errs2xsl.xsl");
+declare variable $stylecheck:sch:=doc("rules/cases-rules-v2.xsl");
+ 
+(:~
+ : @return Annotated copy of posted wordml 
+ :)
+declare
+%rest:path("stylecheck")
+%rest:POST("{$wordIn}") 
+function  stylecheck:annotate($wordIn){
+  let $junk:=fn:trace($wordIn,"------------------------------" )  
+  let $errs:=xslt:transform($wordIn, $stylecheck:sch) 
+  let $xsl:=xslt:transform($errs, $stylecheck:errs2xsl)
+  let $ano:=xslt:transform($wordIn, $xsl)
+ 
+  return $ano
+};
+</div>
+After
+</body>
+  <script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/xquery");
+</script>
+</html>
