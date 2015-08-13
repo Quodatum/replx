@@ -1,24 +1,48 @@
 <html>
 <head>
-<title>REPLXQ v0.0.2</title>
-<link href="app.css" rel="stylesheet" type="text/css" />
+<title>REPLXQ v0.0.3</title>
+<link
+            href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css"
+            rel="stylesheet" type="text/css" />
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js"
+    type="text/javascript" charset="utf-8"></script>           
+<style>
+.ace { 
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+.ace-container {
+    position: relative;
+}
+.extend {
+    min-height:300px;
+} 
+</style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js"
-	type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 	Content
 	<div class="ace-container  extend">
-		<div id="editor" class="ace">(:~ : stylecheck for basex restxq :
-			apb aug 2014 :) module namespace stylecheck = 'apb.stylecheck';
-			import module namespace schematron = 'quodatum.schematron' at
-			"compile.sch/schematron.xqm"; declare variable
-			$stylecheck:rules-base:=fn:resolve-uri("./rules/"); declare variable
-			$stylecheck:errs2xsl:=doc("errs2xsl.xsl"); declare variable
-			$stylecheck:sch:=doc("rules/cases-rules-v2.xsl"); (:~ : @return
-			Annotated copy of posted wordml :) declare %rest:path("stylecheck")
-			%rest:POST("{$wordIn}") function stylecheck:annotate($wordIn){ let
-			$junk:=fn:trace($wordIn,"------------------------------" ) let
+		<div id="editor" class="ace">(:~
+ : stylecheck for basex restxq
+ : apb aug 2014 
+ :)
+module namespace stylecheck = 'apb.stylecheck';
+import module namespace schematron = 'quodatum.schematron' at "compile.sch/schematron.xqm"; 
+declare variable $stylecheck:rules-base:=fn:resolve-uri("./rules/"); 
+declare variable
+			$stylecheck:errs2xsl:=doc("errs2xsl.xsl"); 
+			declare variable
+			$stylecheck:sch:=doc("rules/cases-rules-v2.xsl"); 
+			
+(:~ : @return Annotated copy of posted wordml :) 
+declare %rest:path("stylecheck")
+%rest:POST("{$wordIn}") 
+function stylecheck:annotate($wordIn){
+ let $junk:=fn:trace($wordIn,"------------------------------" ) let
 			$errs:=xslt:transform($wordIn, $stylecheck:sch) let
 			$xsl:=xslt:transform($errs, $stylecheck:errs2xsl) let
 			$ano:=xslt:transform($wordIn, $xsl) return $ano };</div>

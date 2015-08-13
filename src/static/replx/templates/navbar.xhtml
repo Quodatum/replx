@@ -1,0 +1,145 @@
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" ng-init="navCollapsed = true"
+				ng-click="navCollapsed = !navCollapsed">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/replx/">
+				Doc
+				<img src="/static/replx/logo.svg" style="width: 20px; height: 20px"
+					class="pull-left" />
+			</a>
+		</div>
+		<div class="collapse navbar-collapse" ng-class="{'in':!navCollapsed}">
+			<ul class="nav navbar-nav">
+				<li>
+					<a ui-sref="app.index">
+						<i class="fa fa-desktop"></i>
+						Apps
+					</a>
+				</li>
+				<li class="dropdown" dropdown="dropdown">
+					<a href="#" class="dropdown-toggle" dropdown-toggle="dropdown-toggle"
+						data-toggle="dropdown">
+						System
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+
+						<li role="presentation" class="dropdown-header">Server</li>
+						<li>
+							<a ui-sref="wadl">
+								<i class=" fa fa-exchange "></i>
+								Endpoints
+							</a>
+						</li>
+						<li>
+							<a ui-sref="component.basex.index">
+								<i class="fa fa-file-code-o"></i>
+								System modules
+							</a>
+						</li>
+						<li role="presentation" class="divider"></li>
+						<li role="presentation" class="dropdown-header">Client</li>
+						<li>
+							<a ui-sref="component.index">
+								<i class="fa fa-puzzle-piece"></i>
+								Components
+							</a>
+						</li>
+						<li role="presentation" class="divider"></li>
+						<li>
+							<a ui-sref="entity.index" tabindex="-1">
+								<i class="glyphicon glyphicon-list-alt"></i>
+								Entities
+							</a>
+						</li>
+                        <li>
+                            <a ui-sref="tasks.index">
+                                <i class="fa fa-tasks"></i>
+                                Tasks
+                            </a>
+                        </li>
+					</ul>
+				</li>
+				<li class="dropdown" dropdown="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"
+						dropdown-toggle="dropdown-toggle">
+						Tools
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a ui-sref="files">
+								<i class="fa fa-folder-open"></i>
+								Files
+							</a>
+						</li>
+						<li>
+							<a ui-sref="schema">
+								<i class="fa fa-code"></i>
+								Schema
+							</a>
+						</li>
+						<li>
+							<a ui-sref="poster">
+								<i class="fa fa-exchange"></i>
+								Poster
+							</a>
+						</li>
+						
+					</ul>
+				</li>
+
+			</ul>
+			<div class="col-sm-3 col-md-3 pull-left">
+				<form class="navbar-form" role="search" ng-submit="doSearch()">
+					<div class="input-group">
+						<input type="text" ng-model="search.q" class="form-control input-sm"
+							placeholder="Search" name="q" id="q" />
+						<div class="input-group-btn">
+							<button class="btn btn-default input-sm" type="submit">
+								<i class="glyphicon glyphicon-search"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown" dropdown="dropdown">
+					<a href="#" class="dropdown-toggle" title="{{$state.current.name}}({{$stateParams}}) "
+						data-toggle="dropdown" dropdown-toggle="dropdown-toggle">
+						About
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a ui-sref="directives" tabindex="-1">
+								<i class="fa fa-plus-square"></i>
+								Directives
+							</a>
+						</li>
+						<li>
+							<a href="/doc/#/data/app/doc" tabindex="-1">
+								<i class="glyphicon glyphicon-eye-open"></i>
+								Documentation
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a ui-sref="about" tabindex="-1">
+								<i class="glyphicon glyphicon-info-sign"></i>
+								About Doc
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,10 @@
+<package xmlns="http://cxan.org/ns/package" id="replx">
+    <abstract>REPL for XQuery (BaseX) as a web application</abstract>
+    <author id="abunce">Andy Bunce</author>
+    <maintainer id="abunce">Andy Bunce</maintainer>
+    <home>https://github.com/Quodatum/replx</home>
+    <category id="apps">Applications</category>
+    <tag>basex</tag>
+    <tag>repl</tag>
+    <tag>xquery</tag>
+</package>
