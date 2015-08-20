@@ -4,7 +4,7 @@
 <link
             href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css"
             rel="stylesheet" type="text/css" />
- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.8/ace.js"
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"
     type="text/javascript" charset="utf-8"></script>           
 <style>
 .ace { 
@@ -50,8 +50,8 @@ function stylecheck:annotate($wordIn){
 	After
 </body>
 <script>
-var path = "js/modules/ace/build/src-min";
- //ace.config.set("workerPath", path);
+  var path = "work";
+  ace.config.set("workerPath", path);
   var editor = ace.edit("editor");
   editor.setTheme("ace/theme/monokai");
   editor.getSession().setMode("ace/mode/xquery");
