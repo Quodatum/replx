@@ -6,7 +6,7 @@ declare variable $incl-css as element()* external :=();
 declare variable $incl-js as element()* external :=();
 
 
-<html ng-app="replx" ng-controller="rootController">
+<html ng-app="replx" ng-controller="AppController">
 <head>
 <meta charset="utf-8" />
  <base href="{$base}" />

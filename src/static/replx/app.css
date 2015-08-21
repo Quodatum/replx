@@ -1,3 +1,11 @@
+/* app.css */
+body {
+   
+    /* fixed navbar */
+    padding-top: 70px;
+}
+  
+
 .ace { 
         position: absolute;
         top: 0;

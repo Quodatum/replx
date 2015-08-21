@@ -9,17 +9,17 @@
 				<span class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="/replx/">
-				Doc
-				<img src="/static/replx/logo.svg" style="width: 20px; height: 20px"
+				REPLx
+				<img src="/static/replx/logo.svg" style="width: 20px; height: 20px;background-color:white;"
 					class="pull-left" />
 			</a>
 		</div>
 		<div class="collapse navbar-collapse" ng-class="{'in':!navCollapsed}">
 			<ul class="nav navbar-nav">
 				<li>
-					<a ui-sref="app.index">
+					<a ui-sref="term">
 						<i class="fa fa-desktop"></i>
-						Apps
+						Terminal
 					</a>
 				</li>
 				<li class="dropdown" dropdown="dropdown">
@@ -66,34 +66,7 @@
                         </li>
 					</ul>
 				</li>
-				<li class="dropdown" dropdown="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"
-						dropdown-toggle="dropdown-toggle">
-						Tools
-						<b class="caret"></b>
-					</a>
-					<ul class="dropdown-menu">
-						<li>
-							<a ui-sref="files">
-								<i class="fa fa-folder-open"></i>
-								Files
-							</a>
-						</li>
-						<li>
-							<a ui-sref="schema">
-								<i class="fa fa-code"></i>
-								Schema
-							</a>
-						</li>
-						<li>
-							<a ui-sref="poster">
-								<i class="fa fa-exchange"></i>
-								Poster
-							</a>
-						</li>
-						
-					</ul>
-				</li>
+				
 
 			</ul>
 			<div class="col-sm-3 col-md-3 pull-left">
@@ -118,14 +91,9 @@
 						<b class="caret"></b>
 					</a>
 					<ul class="dropdown-menu">
+	
 						<li>
-							<a ui-sref="directives" tabindex="-1">
-								<i class="fa fa-plus-square"></i>
-								Directives
-							</a>
-						</li>
-						<li>
-							<a href="/doc/#/data/app/doc" tabindex="-1">
+							<a href="/doc/#/data/app/replx" tabindex="-1">
 								<i class="glyphicon glyphicon-eye-open"></i>
 								Documentation
 							</a>
@@ -134,7 +102,7 @@
 						<li>
 							<a ui-sref="about" tabindex="-1">
 								<i class="glyphicon glyphicon-info-sign"></i>
-								About Doc
+								About Replx
 							</a>
 						</li>
 					</ul>

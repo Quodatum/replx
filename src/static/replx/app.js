@@ -1,9 +1,9 @@
 angular.module(
     'replx',
-    [  'ui.router', 'ngResource', 'ngAnimate','ngSanitize', 'ui.bootstrap', 'restangular'
+    ['ui.router', 'ngResource', 'ngAnimate','ngSanitize', 'ui.bootstrap', 'restangular'
         
 		 ])
-/*
+
 .constant("apiRoot", "../../replx/")
 
 .config(
@@ -18,25 +18,31 @@ angular.module(
 		  
           .state('search', {
             url : "/search?q",
-            templateUrl : '/static/doc/templates/search.xhtml',
+            templateUrl : '/static/replx/templates/search.xhtml',
             controller : "SearchCtrl"
           })
 
           .state('error', {
             url : "/error",
-            templateUrl : '/static/doc/templates/error.xhtml'
+            templateUrl : '/static/replx/templates/error.xhtml'
           })
 
           .state('about', {
             url : "/about",
-            templateUrl : '/static/doc/templates/about.xhtml',
+            templateUrl : '/static/replx/templates/about.xhtml',
 			 ncyBreadcrumb: { label: 'Home',icon:'glyphicon glyphicon-home'}
           })
 
           .state('404', {
             url : "/404",
-            templateUrl : '/static/doc/templates/404.xhtml'
-          });
+            templateUrl : '/static/replx/templates/404.xhtml'
+          })
+             .state('term', {
+            url : "/term",
+            templateUrl : '/static/replx/templates/term.xhtml',
+            controller : "TermCtrl"
+          })
+          ;
         //  $urlRouterProvider.when('', '/about');  
           $urlRouterProvider.otherwise('/404');  
           // use the HTML5 History API
@@ -48,7 +54,12 @@ angular.module(
       console.log("HomeCtrl");
      $location.path('/about')
     } ])
-	
+
+ .controller("TermCtrl",
+    [ "$scope", "$location", function($scope, $location) {
+      console.log("TermCtrl");
+    } ])
+       
 .controller("AppController",
     [ "$scope", "$location", function($scope, $location) {
       console.log("AppController");
@@ -82,5 +93,5 @@ angular.module(
           };
           search($scope.search.q);
         } ])
-*/        
+       
 ;

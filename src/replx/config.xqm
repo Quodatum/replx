@@ -19,7 +19,7 @@ declare %updating function write-log($text as xs:string){
 declare  function settings(){
    map{
     "version":$cnf:package/@version/fn:string(),
-    "static":"/static/doc/",
+    "static":"/static/replx/",
     "incl-css":$cnf:includes/css/*,
     "incl-js":$cnf:includes/js/*
    }
