@@ -1,7 +1,12 @@
 angular.module(
     'replx',
-    ['ui.router', 'ngResource', 'ngAnimate','ngSanitize', 'ui.bootstrap', 'restangular'
-        
+    ['ui.router',
+     'ngResource',
+     'ngAnimate',
+     'ngSanitize',
+     'ui.bootstrap',
+     'restangular',
+     'ui.ace'     
 		 ])
 
 .constant("apiRoot", "../../replx/")
@@ -58,6 +63,32 @@ angular.module(
  .controller("TermCtrl",
     [ "$scope", "$location", function($scope, $location) {
       console.log("TermCtrl");
+      $scope.modes = ['XQuery', 'XML', 'Javascript'];
+      $scope.mode = $scope.modes[0];
+     
+     
+      // The ui-ace option
+      $scope.aceOption = {
+        mode: $scope.mode.toLowerCase(),
+        workerPath: '/static/replx/work',
+        onLoad: function (_ace) {
+     
+          // HACK to have the ace instance in the scope...
+          $scope.modeChanged = function () {
+            _ace.getSession().setMode("ace/mode/" + $scope.mode.toLowerCase());
+          };
+     
+        }
+      require: ['ace/ext/language_tools'],
+      advanced: {
+          enableSnippets: true,
+          enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true
+      }
+      };
+     
+      // Initial code content...
+      $scope.aceModel = '(: just add xquery :)' ;
     } ])
        
 .controller("AppController",

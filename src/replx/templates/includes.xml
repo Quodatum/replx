@@ -37,12 +37,15 @@
     <script src="//cdn.rawgit.com/FlussoBV/NgDexie/v0.0.15/build/ngDexie.js"></script> 
     <script src="//cdn.rawgit.com/twygmbh/angular-auto-height/9c7a5bdf673b1296d5dd504f463e478c20efc101/dist/auto-height.js"></script> 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"
-    type="text/javascript" charset="utf-8"></script>      
+    type="text/javascript" charset="utf-8"></script>
+ 
+          
     <!-- local libs   --> 
     <script src="/static/lib/config.js"></script>
     <script src="/static/lib/angular-treemendous-0.2.3/angular-treemendous.js"  ></script>
     <script src="/static/lib/angular-growl-2/0.7.0/angular-growl.min.js"  ></script>
-    <script src="/static/lib/angular-ya-treeview/0.2.2/ya-treeview-tpls.js"  ></script> 
+    <script src="/static/lib/angular-ya-treeview/0.2.2/ya-treeview-tpls.js"  ></script>
+    <script src="/static/lib/ui-ace/ui-ace-0.2.3/ui-ace.js"></script> 
  
 	</js>
 </includes>
