@@ -78,7 +78,7 @@ angular.module(
             _ace.getSession().setMode("ace/mode/" + $scope.mode.toLowerCase());
           };
      
-        }
+        },
       require: ['ace/ext/language_tools'],
       advanced: {
           enableSnippets: true,
