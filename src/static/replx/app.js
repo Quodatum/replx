@@ -6,8 +6,8 @@ angular.module(
      'ngSanitize',
      'ui.bootstrap',
      'restangular',
-     'ui.ace'     
-		 ])
+     'ui.ace'
+     ])
 
 .constant("apiRoot", "../../replx/")
 
@@ -44,7 +44,7 @@ angular.module(
           })
              .state('term', {
             url : "/term",
-            templateUrl : '/static/replx/templates/term.xhtml',
+            templateUrl : '/static/replx/templates/term.html',
             controller : "TermCtrl"
           })
           ;
@@ -124,5 +124,36 @@ angular.module(
           };
           search($scope.search.q);
         } ])
+        
+// set height on element to extend to window
+// http://stackoverflow.com/a/23044603/3210344
+.directive('resize', function ($window) {
+    return function (scope, element, attr) {
+
+        var w = angular.element($window);
+        scope.$watch(function () {
+            return {
+                'h': window.innerHeight, 
+                'w': window.innerWidth
+            };
+        }, function (newValue, oldValue) {
+            console.log(newValue, oldValue);
+            scope.windowHeight = newValue.h;
+            scope.windowWidth = newValue.w;
+
+            scope.heightWithOffset = function (offsetH) {
+                scope.$eval(attr.notifier);
+                return { 
+                    'windowHeight': (newValue.h - offsetH) + 'px'                    
+                };
+            };
+
+        }, true);
+
+        w.bind('resize', function () {
+            scope.$apply();
+        });
+    }
+})
        
 ;

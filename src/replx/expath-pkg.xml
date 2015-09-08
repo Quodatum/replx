@@ -1,5 +1,5 @@
 <package abbrev="replx" name="https://github.com/Quodatum/replx"
-	version="0.0.5" spec="1.0" xmlns="http://expath.org/ns/pkg">
+	version="0.0.7" spec="1.0" xmlns="http://expath.org/ns/pkg">
 	<title>REPLx</title>
 	<dependency name="twitter-bootstrap-css" version="3.3.4" />
     <dependency name="angularjs" version="1.3.15" />
@@ -16,4 +16,5 @@
     <dependency name="NgDexie" version="0.0.15"/>
 	<dependency name="ace" version="1.2.0" />
 	<dependency name="ui-ace" version="0.1.0" />
+	<dependency name="angular-auto-height"  version="9c7a5bdf673b1296d5dd504f463e478c20efc101" />
 </package>

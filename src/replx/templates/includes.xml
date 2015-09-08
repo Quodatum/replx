@@ -38,6 +38,8 @@
     <script src="//cdn.rawgit.com/twygmbh/angular-auto-height/9c7a5bdf673b1296d5dd504f463e478c20efc101/dist/auto-height.js"></script> 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"
     type="text/javascript" charset="utf-8"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ext-language_tools.js"
+       type="text/javascript" charset="utf-8"></script>
  
           
     <!-- local libs   --> 
