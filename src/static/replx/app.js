@@ -137,15 +137,12 @@ angular.module(
                 'w': window.innerWidth
             };
         }, function (newValue, oldValue) {
-            console.log(newValue, oldValue);
             scope.windowHeight = newValue.h;
             scope.windowWidth = newValue.w;
 
             scope.heightWithOffset = function (offsetH) {
                 scope.$eval(attr.notifier);
-                return { 
-                    'windowHeight': (newValue.h - offsetH) + 'px'                    
-                };
+                return  (newValue.h - offsetH) + 'px' ;                   
             };
 
         }, true);
