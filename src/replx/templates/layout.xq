@@ -35,6 +35,7 @@ declare variable $incl-js as element()* external :=();
     <!-- start component js -->
     {$incl-js}
      <!-- app js -->
+     <script src="{$static}feats/term/term.js"></script>
       <script src="{$static}app.js"></script>
   
 </body>

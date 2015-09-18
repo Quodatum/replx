@@ -6,7 +6,8 @@ angular.module(
      'ngSanitize',
      'ui.bootstrap',
      'restangular',
-     'ui.ace'
+     'ui.ace',
+     'replx.term'
      ])
 
 .constant("apiRoot", "../../replx/")
@@ -42,13 +43,10 @@ angular.module(
             url : "/404",
             templateUrl : '/static/replx/templates/404.xhtml'
           })
-             .state('term', {
-            url : "/term",
-            templateUrl : '/static/replx/templates/term.html',
-            controller : "TermCtrl"
-          })
+          
+         
           ;
-        //  $urlRouterProvider.when('', '/about');  
+          // $urlRouterProvider.when('', '/term');  
           $urlRouterProvider.otherwise('/404');  
           // use the HTML5 History API
           // $locationProvider.html5Mode(true);
@@ -57,38 +55,7 @@ angular.module(
 .controller("HomeCtrl",
     [ "$scope", "$location", function($scope, $location) {
       console.log("HomeCtrl");
-     $location.path('/about')
-    } ])
-
- .controller("TermCtrl",
-    [ "$scope", "$location", function($scope, $location) {
-      console.log("TermCtrl");
-      $scope.modes = ['XQuery', 'XML', 'Javascript'];
-      $scope.mode = $scope.modes[0];
-     
-     
-      // The ui-ace option
-      $scope.aceOption = {
-        mode: $scope.mode.toLowerCase(),
-        workerPath: '/static/replx/work',
-        onLoad: function (_ace) {
-     
-          // HACK to have the ace instance in the scope...
-          $scope.modeChanged = function () {
-            _ace.getSession().setMode("ace/mode/" + $scope.mode.toLowerCase());
-          };
-     
-        },
-      require: ['ace/ext/language_tools'],
-      advanced: {
-          enableSnippets: true,
-          enableBasicAutocompletion: true,
-          enableLiveAutocompletion: true
-      }
-      };
-     
-      // Initial code content...
-      $scope.aceModel = '(: just add xquery :)' ;
+     $location.path('/term')
     } ])
        
 .controller("AppController",
