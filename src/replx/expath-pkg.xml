@@ -1,9 +1,9 @@
 <package abbrev="replx" name="https://github.com/Quodatum/replx"
-	version="0.0.9" spec="1.0" xmlns="http://expath.org/ns/pkg">
+	version="0.0.10" spec="1.0" xmlns="http://expath.org/ns/pkg">
 	<title>REPLx</title>
 	<dependency name="twitter-bootstrap-css" version="3.3.4" />
     <dependency name="angularjs" version="1.3.15" />
-    <dependency name="angular-ui-bootstrap" version="0.13.0" />
+    <dependency name="angular-ui-bootstrap" version="0.14.3" />
     <dependency name="restangular" version="3.1.1" />
     <dependency name="lodash" version="2.4.1" />
     <dependency name="font-awesome" version="4.3.0" />

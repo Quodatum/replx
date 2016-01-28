@@ -54,8 +54,8 @@ angular.module(
       $scope.aceModel = '(: just add xquery2 :)' ;
       
      
-       $scope.back=function(){
-         console.log("back"); 
+       $scope.move=function(diff){
+         alert("move: "+diff); 
       };
     } ])
        
