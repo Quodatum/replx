@@ -4,7 +4,6 @@
  :@version 0.1
  :)
 module namespace dr = 'quodatum.repl.rest';
-declare default function namespace 'quodatum.repl.rest';
 
 import module namespace cnf = 'quodatum.app.config' at 'config.xqm';
 import module namespace txq = 'quodatum.txq' at "lib/txq.xqm";
@@ -19,7 +18,7 @@ declare
  %rest:GET %rest:path("replx")
  %output:method("html")
  %output:version("5.0")
-function doc(){
+function dr:doc(){
      (: update model.xqm :)
      let $_:=fn:trace(fn:current-dateTime(),"*** START: ")
      (: @TODO check db exist app status et :)                 
@@ -29,9 +28,24 @@ function doc(){
 
 
 (:~
+ : Evaluates a query and returns the result.
+ : @param  $query  query
+ : @return result of query
+ :)
+declare
+  %rest:POST("{$query}")
+  %rest:path("/replx/eval-query")
+  %output:method("text")
+function dr:eval-query(
+  $query  as xs:string?
+) as xs:string {
+  util:query($query)
+};
+
+(:~
  : html rendering
  :) 
-declare function render($template,$map){
+declare function dr:render($template,$map){
     let $defaults:=cnf:settings()
     let $map:=map:merge(($map,$defaults))
     return (web:method("html"),txq:render(
@@ -41,4 +55,3 @@ declare function render($template,$map){
                 )
             )
 };
-
