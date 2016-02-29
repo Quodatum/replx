@@ -1,59 +1,70 @@
-<html>
-<head>
-<title>REPLXQ v0.0.3</title>
-<link
-            href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css"
-            rel="stylesheet" type="text/css" />
- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"
-    type="text/javascript" charset="utf-8"></script>           
-<style>
-.ace { 
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-    }
-.ace-container {
-    position: relative;
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <base href="/replx/">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="REPL for BaseX">
+    <meta name="author" content="andy bunce.">
+    <title>REPL testx (v0.0.14)</title>
+    <link rel="shortcut icon" href="/static/replx/replx.png">
+    <!-- component css -->
+    <link href="/static/lib/font-awesome/4.3.0/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/lib/twitter-bootstrap-css/3.3.4/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/static/lib/angular-growl-2/0.7.0/angular-growl.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/lib/angular-ya-treeview/0.2.2/ya-treeview.css" rel="stylesheet" type="text/css">
+    <link href="/static/replx/app.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/static/lib/firebug-lite/4/firebug-lite.js">
+{
+    overrideConsole: false,
+    startInNewWindow: false,
+    startOpened: true,
+    enableTrace: true
 }
-.extend {
-    min-height:300px;
-} 
-</style>
-
-</head>
-<body>
-	Content
-	<div class="ace-container  extend">
-		<div id="editor" class="ace">(:~
- : stylecheck for basex restxq
- : apb aug 2014 
- :)
-module namespace stylecheck = 'apb.stylecheck';
-import module namespace schematron = 'quodatum.schematron' at "compile.sch/schematron.xqm"; 
-declare variable $stylecheck:rules-base:=fn:resolve-uri("./rules/"); 
-declare variable
-			$stylecheck:errs2xsl:=doc("errs2xsl.xsl"); 
-			declare variable
-			$stylecheck:sch:=doc("rules/cases-rules-v2.xsl"); 
-			
-(:~ : @return Annotated copy of posted wordml :) 
-declare %rest:path("stylecheck")
-%rest:POST("{$wordIn}") 
-function stylecheck:annotate($wordIn){
- let $junk:=fn:trace($wordIn,"------------------------------" ) let
-			$errs:=xslt:transform($wordIn, $stylecheck:sch) let
-			$xsl:=xslt:transform($errs, $stylecheck:errs2xsl) let
-			$ano:=xslt:transform($wordIn, $xsl) return $ano };</div>
-	</div>
-	After
-</body>
-<script>
-  var path = "work";
-  ace.config.set("workerPath", path);
-  var editor = ace.edit("editor");
-  editor.setTheme("ace/theme/monokai");
-  editor.getSession().setMode("ace/mode/xquery");
 </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="container-fluid" ng-include="'/static/replx/templates/navbar.xhtml'"></div>
+      <div class="center-container">
+        <ui-view class="view-animate" style="position:relative;">Loading...</ui-view>
+      </div>
+      <div growl="growl"></div>
+    </div>
+    <!-- start component js -->
+        <!--
+    <script src="/static/lib/ace/1.2.3/src-min-noconflict/ace.js"></script>
+    <script src="/static/lib/ace/1.2.3/src-min-noconflict/ext-language_tools.js"></script>
+    <script src="/static/lib/angularjs/1.3.15/angular.js"></script>
+    <script src="/static/lib/angularjs/1.3.15/angular-resource.js"></script>
+    <script src="/static/lib/angularjs/1.3.15/angular-cookies.js"></script>
+    <script src="/static/lib/angularjs/1.3.15/angular-sanitize.js"></script>
+    <script src="/static/lib/angularjs/1.3.15/angular-touch.js"></script>
+    <script src="/static/lib/angularjs/1.3.15/angular-animate.js"></script>
+    <script src="/static/lib/lodash/2.4.1/lodash.min.js"></script>
+    <script src="/static/lib/config.js"></script>
+    <script src="/static/lib/stacktrace/0.6.0"></script>
+    <script src="/static/lib/dexie.js/1.1.0/Dexie.js"></script>
+    <script src="/static/lib/angular-growl-2/0.7.0/angular-growl.min.js"></script>
+    <script src="/static/lib/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+    <script src="/static/lib/angular-ui-router/0.2.15/angular-ui-router.js"></script>
+    <script src="/static/lib/angular-ya-treeview/0.2.2/ya-treeview-tpls.js"></script>
+    <script src="/static/lib/NgDexie/0.0.15/ngDexie.js"></script>
+    <script src="/static/lib/restangular/1.3.1/restangular.min.js"></script>
+    <script src="/static/lib/ui-ace/ui-ace-0.2.3/ui-ace.js"></script>
+    <script src="/static/lib/angular-breadcrumb/0.4.0/angular-breadcrumb.js"></script>
+    <script src="/static/lib/quodatum-directives/0.1.0/directives.js"></script>
+    -->
+    <!-- app js -->
+    <script src="/static/replx/feats/term/term.js"></script>
+    <script src="/static/replx/app2.js"></script>
+  
+    <script>
+        window.onload =function(){
+        console.log("helo");
+        alert("hi");
+        };
+      </script>  
+  </body>
 </html>

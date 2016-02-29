@@ -23,7 +23,7 @@ function dr:doc(){
      let $_:=fn:trace(fn:current-dateTime(),"*** START: ")
      (: @TODO check db exist app status et :)                 
      return 
-             render("main.xq",map{})
+            dr:render("main.xq",map{})
 };
 
 
@@ -39,7 +39,7 @@ declare
 function dr:eval-query(
   $query  as xs:string?
 ) as xs:string {
-  util:query($query)
+  xquery:eval($query)
 };
 
 (:~
