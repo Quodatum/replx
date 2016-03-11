@@ -29,6 +29,13 @@ angular.module(
      
       $scope.send=function(){
         console.log("SEND",$scope.aceModel); 
+        var _start = performance.now();
+        Restangular.all("ping").post().then(function(r) {
+          $scope.postMs = Math.floor(performance.now() - _start);
+          growl.success(r, {
+            title : 'POST  ' +  $scope.postMs + ' ms.'
+          });
+        });
        };
       // The ui-ace option
       $scope.aceOption = {

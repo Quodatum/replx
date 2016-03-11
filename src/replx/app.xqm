@@ -5,11 +5,13 @@
  :)
 module namespace dr = 'quodatum.repl.rest';
 
+import module namespace cmpx="quodatum.cmpx";
 import module namespace cnf = 'quodatum.app.config' at 'config.xqm';
 import module namespace txq = 'quodatum.txq' at "lib/txq.xqm";
 import module namespace dice = 'quodatum.web.dice/v2' at "lib/dice.xqm";
 import module namespace web = 'quodatum.web.utils4' at 'lib/webutils.xqm';
 
+declare variable $dr:state as element(state):=db:open("replx","/state.xml")/state;
 
 (:~
  : The doc home page as html. The UI entry point.
@@ -40,6 +42,19 @@ function dr:eval-query(
   $query  as xs:string?
 ) as xs:string {
   xquery:eval($query)
+};
+
+
+
+(:~
+ :  ping incr counter
+ :)
+declare %updating  
+%rest:POST %rest:path("/replx/ping")
+%output:method("text")
+function dr:dopost(){
+    (replace value of node $dr:state/hits with 1+$dr:state/hits,
+            db:output(1+$dr:state/hits))
 };
 
 (:~

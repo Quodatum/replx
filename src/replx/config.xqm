@@ -10,7 +10,7 @@ declare namespace pkg="http://expath.org/ns/pkg";
 declare variable $cnf:name:="replx";
 
 declare variable $cnf:package:=fn:doc("expath-pkg.xml")/pkg:package;
-declare variable $cnf:includes:=fn:doc("./templates/includes.xml")/includes;
+
 
 declare %updating function cnf:write-log($text as xs:string){
     admin:write-log("[" || $cnf:name || "] " || $text)
@@ -18,12 +18,12 @@ declare %updating function cnf:write-log($text as xs:string){
 
 (:~ config values for render :)
 declare  function cnf:settings(){
-  let $incl:=cmpx:app($cnf:name,fn:true())
+  let $incl:=cmpx:app($cnf:name,map{"offline":fn:true()})
    return map{
     "version":$cnf:package/@version/fn:string(),
     "static":"/static/replx/",
-    "incl-css":$incl/css/*,
-    "incl-js":$incl/js/*
+    "incl-css":$incl?css,
+    "incl-js":$incl?js
    }
 }; 
 

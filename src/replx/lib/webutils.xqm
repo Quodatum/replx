@@ -108,6 +108,7 @@ modify (
 return $c
 };
 
+(:~ remove unused namespaces :)
 declare function strip-ns($n as node()) as node() {
   if($n instance of element()) then (
     element { fn:local-name($n) } {
@@ -124,4 +125,4 @@ declare function strip-ns($n as node()) as node() {
 declare function svg-response(){
     web:response-header(map { 'media-type': "image/svg+xml",
                               'method':"xml"})
-}; 
+};
