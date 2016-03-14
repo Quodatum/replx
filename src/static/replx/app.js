@@ -7,7 +7,8 @@ angular.module(
      'ui.bootstrap',
      'restangular',
      'ui.ace',
-     'replx.term'
+     'replx.term',
+	 'quodatum.directives', 'quodatum.config' 
      ])
 
 .constant("apiRoot", "../../replx/")

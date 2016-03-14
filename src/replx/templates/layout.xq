@@ -22,10 +22,10 @@ declare variable $incl-js as element()* external :=();
 <link href="{$static}app.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/static/lib/firebug-lite/4/firebug-lite.js">
 {{
-    overrideConsole: false,
-    startInNewWindow: true,
-    startOpened: true,
-    enableTrace: true
+    overrideConsole: true,
+    startInNewWindow: false,
+    startOpened: false,
+    enableTrace: false
 }}
 </script>
 <script type="text/javascript">

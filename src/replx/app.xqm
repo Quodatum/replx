@@ -50,7 +50,7 @@ function dr:eval-query(
  :  ping incr counter
  :)
 declare %updating  
-%rest:POST %rest:path("/replx/ping")
+%rest:POST %rest:path("/replx/xq")
 %output:method("text")
 function dr:dopost(){
     (replace value of node $dr:state/hits with 1+$dr:state/hits,
