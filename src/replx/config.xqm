@@ -18,7 +18,7 @@ declare %updating function cnf:write-log($text as xs:string){
 
 (:~ config values for render :)
 declare  function cnf:settings(){
-  let $incl:=cmpx:app($cnf:name,map{"offline":fn:true()})
+  let $incl:=cmpx:app($cnf:name,map{"offline":fn:false()})
    return map{
     "version":$cnf:package/@version/fn:string(),
     "static":"/static/replx/",
