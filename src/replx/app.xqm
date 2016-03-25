@@ -20,12 +20,17 @@ declare
  %rest:GET %rest:path("replx")
  %output:method("html")
  %output:version("5.0")
+ %updating
 function dr:doc(){
      (: update model.xqm :)
-     let $_:=fn:trace(fn:current-dateTime(),"*** START: ")
-     (: @TODO check db exist app status et :)                 
-     return 
-            dr:render("main.xq",map{})
+     let $_:=fn:trace(fn:current-dateTime(),"*** START REPLX: ")
+     (: @TODO check db exist app status et :)
+      return (if(db:exists("replx") )
+            then ()
+            else async:update("db:create('replx')", map{}, map {'cache': false() })                 
+     , 
+            db:output(dr:render("main.xq",map{}))
+            )
 };
 
 

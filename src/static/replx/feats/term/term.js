@@ -63,11 +63,15 @@ angular.module(
       $scope.aceOption = {
         mode: $scope.mode.toLowerCase(),
         workerPath: '/static/replx/work',
-        onLoad: function (_ace) {
-    
+        onLoad: function (_editor) {
+          // https://github.com/angular-ui/ui-ace/issues/104#issuecomment-142867871
+          // This is to remove following warning message on console:
+          // Automatically scrolling cursor into view after selection change this will be disabled in the next version
+          // set editor.$blockScrolling = Infinity to disable this message
+          _editor.$blockScrolling = Infinity;
           // HACK to have the ace instance in the scope...
           $scope.modeChanged = function () {
-            _ace.getSession().setMode("ace/mode/" + $scope.mode.toLowerCase());
+            _editor.getSession().setMode("ace/mode/" + $scope.mode.toLowerCase());
           };
      
         },
