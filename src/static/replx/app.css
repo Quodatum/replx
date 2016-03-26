@@ -5,7 +5,19 @@ body {
     padding-top: 70px;
 }
   
-.ace_editor  {
-      min-height : 100px;
-    }
+/*
+.ace_editor { height: 200px; }
+*/
+ 
 
+.ace_gutter-cell.ace_breakpoint{
+    border-radius: 20px 0px 0px 20px;
+    box-shadow: 0px 0px 1px 1px red inset;
+}
+.ace_editor_wrapper { 
+       height: 100%
+}
+ 
+.ace_editor {
+height: 100%;
+} 
