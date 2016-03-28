@@ -26,14 +26,32 @@ function dr:doc(){
      let $_:=fn:trace(fn:current-dateTime(),"*** START REPLX: ")
      (: @TODO check db exist app status et :)
       return (if(db:exists("replx") )
-            then ()
-            else async:update("db:create('replx')", map{}, map {'cache': false() })                 
-     , 
-            db:output(dr:render("main.xq",map{}))
+              then ()
+              else dr:async-uri(fn:resolve-uri("tasks/generate-db.xq"))              
+             , 
+              db:output(dr:render("main.xq",map{}))
             )
 };
 
+declare %updating function dr:async-uri($uri as xs:anyURI)
+{
+  let $xq:=fn:unparsed-text($uri)
+  let $opts:= map {'base-uri':$uri,'cache': false() }
+  return async:update($xq, map{},$opts)
+};
 
+(:~
+ :  status info json
+ :)
+declare 
+%output:method("json") 
+%rest:GET %rest:path("/replx/status")
+function dr:status(){
+   <json type="object">
+   <version>{cnf:settings()?version}</version>
+   <cacherestxq>{db:system()/globaloptions/cacherestxq/fn:string()}</cacherestxq>
+   </json>
+};
 (:~
  : Evaluates a query and returns the result.
  : @param  $query  query

@@ -1,0 +1,7 @@
+<query id="1">
+<!-- parentid -->	
+	timedate dc?
+	<query engine="xquery,update,sparql">40+2</query>
+	<result serialization="xml">42</result>
+	
+</query>

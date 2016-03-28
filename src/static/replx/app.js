@@ -1,15 +1,8 @@
 angular.module(
     'replx',
-    ['ui.router',
-     'ngResource',
-     'ngAnimate',
-     'ngSanitize',
-     'ui.bootstrap',
-     'restangular',
-     'ui.ace',
-     'replx.term',
-	 'quodatum.directives', 'quodatum.config' 
-     ])
+    [ 'ui.router', 'ngResource', 'ngAnimate', 'ngSanitize', 'ui.bootstrap',
+        'restangular', 'ui.ace', 'replx.term', 'quodatum.directives',
+        'quodatum.config' ])
 
 .constant("apiRoot", "../../replx/")
 
@@ -17,12 +10,12 @@ angular.module(
     [ '$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
           $stateProvider
-		  
+
           .state('home', {
             url : "",
             controller : "HomeCtrl"
           })
-		  
+
           .state('search', {
             url : "/search?q",
             templateUrl : '/static/replx/templates/search.xhtml',
@@ -37,28 +30,39 @@ angular.module(
           .state('about', {
             url : "/about",
             templateUrl : '/static/replx/templates/about.xhtml',
-			 ncyBreadcrumb: { label: 'Home',icon:'glyphicon glyphicon-home'}
+            ncyBreadcrumb : {
+              label : 'Home',
+              icon : 'glyphicon glyphicon-home'
+            },
+            controller : "AboutCtrl"
           })
 
           .state('404', {
             url : "/404",
             templateUrl : '/static/replx/templates/404.xhtml'
           })
-          
-         
+
           ;
-          // $urlRouterProvider.when('', '/term');  
-          $urlRouterProvider.otherwise('/404');  
+          // $urlRouterProvider.when('', '/term');
+          $urlRouterProvider.otherwise('/404');
           // use the HTML5 History API
           // $locationProvider.html5Mode(true);
         } ])
-		
-.controller("HomeCtrl",
-    [ "$scope", "$location", function($scope, $location) {
-      console.log("HomeCtrl");
-     $location.path('/term')
+
+.controller("HomeCtrl", [ "$scope", "$location", function($scope, $location) {
+  console.log("HomeCtrl");
+  $location.path('/term')
+} ])
+
+.controller("AboutCtrl",
+    [ "Restangular", "$scope", function(Restangular, $scope) {
+      // console.log("AboutCtrl");
+      Restangular.oneUrl("status").get().then(function(d) {
+         console.log("res",d);
+        $scope.version = d.version;
+      });
     } ])
-       
+
 .controller("AppController",
     [ "$scope", "$location", function($scope, $location) {
       console.log("AppController");
@@ -77,7 +81,7 @@ angular.module(
           console.log("Search Init", $stateParams);
           $scope.search.q = $stateParams.q;
           function search(q) {
-            console.log("search:",$scope.search );
+            console.log("search:", $scope.search);
             Restangular.all("search").getList({
               q : $scope.search.q
             }).then(function(d) {
@@ -92,33 +96,31 @@ angular.module(
           };
           search($scope.search.q);
         } ])
-        
+
 // set height on element to extend to window
 // http://stackoverflow.com/a/23044603/3210344
-.directive('resize', function ($window) {
-    return function (scope, element, attr) {
+.directive('resize', function($window) {
+  return function(scope, element, attr) {
 
-        var w = angular.element($window);
-        scope.$watch(function () {
-            return {
-                'h': window.innerHeight, 
-                'w': window.innerWidth
-            };
-        }, function (newValue, oldValue) {
-            scope.windowHeight = newValue.h;
-            scope.windowWidth = newValue.w;
+    var w = angular.element($window);
+    scope.$watch(function() {
+      return {
+        'h' : window.innerHeight,
+        'w' : window.innerWidth
+      };
+    }, function(newValue, oldValue) {
+      scope.windowHeight = newValue.h;
+      scope.windowWidth = newValue.w;
 
-            scope.heightWithOffset = function (offsetH) {
-                scope.$eval(attr.notifier);
-                return  (newValue.h - offsetH) + 'px' ;                   
-            };
+      scope.heightWithOffset = function(offsetH) {
+        scope.$eval(attr.notifier);
+        return (newValue.h - offsetH) + 'px';
+      };
 
-        }, true);
+    }, true);
 
-        w.bind('resize', function () {
-            scope.$apply();
-        });
-    }
-})
-       
-;
+    w.bind('resize', function() {
+      scope.$apply();
+    });
+  }
+});
