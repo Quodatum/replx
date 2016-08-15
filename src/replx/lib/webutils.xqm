@@ -6,12 +6,16 @@
 
 module namespace qweb = 'quodatum.web.utils4';
 declare default function namespace 'quodatum.web.utils4'; 
-
+import module namespace request = "http://exquery.org/ns/request";
 declare namespace rest = 'http://exquery.org/ns/restxq';
 
-
-
-
+(:~ map of available dice parameters :)
+declare function dice(){
+    let $fld:=function($n){if(request:parameter($n))
+                           then map:entry($n,request:parameter($n))
+                           else ()}
+    return map:merge(("start","limit","sort")!$fld(.))
+};
 
 declare function status($code,$reason){
    <rest:response>            
@@ -108,7 +112,6 @@ modify (
 return $c
 };
 
-(:~ remove unused namespaces :)
 declare function strip-ns($n as node()) as node() {
   if($n instance of element()) then (
     element { fn:local-name($n) } {
@@ -122,7 +125,13 @@ declare function strip-ns($n as node()) as node() {
   )
 };
 
+(:~ todo use basex mime :)
 declare function svg-response(){
     web:response-header(map { 'media-type': "image/svg+xml",
                               'method':"xml"})
+};
+ 
+declare function json-response(){
+    web:response-header(map { 'media-type': "application/json",
+                              'method':"json"})
 };

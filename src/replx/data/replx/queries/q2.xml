@@ -1,0 +1,9 @@
+<query id="2">
+<!-- parentid -->	
+	<created>2016-03-31T22:21:58.797+01:00</created>
+	<query engine="xquery"><![CDATA[
+async:eval("prof:sleep(1000),error(QName('http://err', 'bang'),  'gone wrong.')")
+]]></query>
+	<result serialization="basex">450015000</result>
+	
+</query>

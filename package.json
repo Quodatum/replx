@@ -1,0 +1,38 @@
+{
+  "name": "repl.xq",
+  "version": "0.0.5",
+  "description": "xquery ide",
+  "main": "webpack.config.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
+    "react-hot-loader": "^1.3.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Quodatum/replx.git"
+  },
+  "keywords": [
+    "ide"
+  ],
+  "author": "abunce",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Quodatum/replx/issues"
+  },
+  "homepage": "https://github.com/Quodatum/replx#readme"
+}

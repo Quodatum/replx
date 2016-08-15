@@ -1,1 +1,3 @@
 /.settings/
+/src/static/replx/node_modules
+/node_modules/

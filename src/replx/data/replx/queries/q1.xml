@@ -1,7 +1,25 @@
 <query id="1">
 <!-- parentid -->	
-	timedate dc?
-	<query engine="xquery,update,sparql">40+2</query>
-	<result serialization="xml">42</result>
+	<created>2016-03-31T22:21:58.797+01:00</created>
+	<query engine="xquery"><![CDATA[
+(:~  
+ : tail recursion example
+ :)
+declare function local:sum-a($n){
+if($n eq 0) then 1 else $n+ local:sum-a($n - 1)
+};
+
+declare function local:sum-b($n){
+local:sum-iter(1,$n)
+};
+declare function local:sum-iter($sum,$n){
+  if($n < 2) then $sum else local:sum-iter($sum+$n,$n -1)
+};
+
+
+(: sum-a: max value for arg is stacksize=2983 :) 
+local:sum-b(30000)	
+]]></query>
+	<result serialization="basex">450015000</result>
 	
 </query>

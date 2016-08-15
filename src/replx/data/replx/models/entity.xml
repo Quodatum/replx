@@ -1,0 +1,60 @@
+<entity name="entity" xmlns="https://github.com/Quodatum/app-doc/entity">
+	<description>About an entity i.e. something described in this framework
+	</description>
+	<namespace prefix="ent"
+		uri="https://github.com/Quodatum/app-doc/entity" />
+	<fields>
+		<field name="name" type="xs:string">
+			<description>name</description>
+			<xpath>@name</xpath>
+		</field>
+		<field name="type" type="xs:string">
+			<description>xquery type. Just xs:?? for now</description>
+			<xpath>ent:data/@type</xpath>
+		</field>
+		<field name="code" type="xs:string?">
+			<description>XQuery code to access items</description>
+			<xpath>ent:data</xpath>
+		</field>
+		<field name="namespaces" type="xs:string?">
+            <description>XQuery code to declare namespaces</description>
+            <xpath>ent:namespace/concat("declare namespace ",@prefix,"='",@uri,"';&#13;&#10;")=>string-join()</xpath>
+        </field>
+        <field name="modules" type="xs:string?">
+            <description>XQuery code for module imports</description>
+            <xpath>ent:module/concat("import module namespace ",@prefix,"='",@namespace,"';&#13;&#10;")=>string-join()</xpath>
+        </field>
+		<field name="description" type="xs:string">
+			<description>description</description>
+			<xpath>ent:description</xpath>
+		</field>
+		<field name="iconclass" type="xs:string">
+			<description>css class for icon</description>
+			<xpath>ent:iconclass</xpath>
+		</field>
+		<field name="nfields" type="xs:integer">
+			<description>The number of fields for this entity</description>
+			<xpath>fn:count(ent:fields/ent:field)</xpath>
+		</field>
+		<field name="fieldslink" type="xs:string">
+			<description>Links for fields description</description>
+			<xpath>fn:concat("/data/entity/",@name,"/field")</xpath>
+		</field>
+		<field name="parent" type="xs:string?">
+			<description>parent entity, if any</description>
+			<xpath>ent:parent/@name</xpath>
+		</field>
+		<field name="parentlink" type="xs:string?">
+			<description>parent entity link if any</description>
+			<xpath>fn:concat("/data/entity/",ent:parent/@name)</xpath>
+		</field>
+		<!-- 
+		<field name="fields" entity="field">
+            <description>parent entity link if any</description>
+            <xpath>ent:fields/ent:field</xpath>
+        </field>
+         -->
+	</fields>
+	<iconclass>glyphicon glyphicon-list-alt</iconclass>
+	<data type="element(ent:entity)">collection("doc-doc")//ent:entity</data>
+</entity>

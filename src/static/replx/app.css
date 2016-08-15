@@ -1,14 +1,56 @@
 /* app.css */
-body {
-   
-    /* fixed navbar */
-    padding-top: 70px;
+main {
+  flex-grow: 1;
+  overflow: scroll;
 }
-  
+footer {
+  min-height: 20px;
+  background-color: lightsteelblue; padding: 2px;
+  border: 1px solid yellow;
+}
+.HolyGrail {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.HolyGrail-body {
+  display: flex;
+  flex: 1;
+}
+.HolyGrail-content {
+  flex: 1;
+}
+
+.HolyGrail-nav, .HolyGrail-ads {
+  /* 12em is the width of the columns */
+  flex: 0 0 12em;
+}
+
+.HolyGrail-nav {
+  /* put the nav on the left */
+  order: -1;
+}
+/*
+.active-link{
+ color: #ffffff;
+  background-color: #666666;
+}
+.active-link:hover, .active-link:focus{
+ color: #fffff;
+  background-color: green;
+}
+*/
 /*
 .ace_editor { height: 200px; }
 */
- 
+ .acewrap{
+  top:0px;
+  left:0px;
+  bottom:0px;
+  right:0px;
+  height:100%;
+ }
 
 .ace_gutter-cell.ace_breakpoint{
     border-radius: 20px 0px 0px 20px;
@@ -21,3 +63,40 @@ body {
 .ace_editor {
 height: 100%;
 } 
+.cup-content-type{
+    display:inline-block;
+    width:12em;
+}
+
+.consignments{
+    margin:0px;
+    padding:0px;
+}
+
+
+.qd-panel{
+ display: flex;
+ flex-direction: column; 
+ margin:4px;
+}
+
+.qd-panel-body{
+    flex: 1 0 1px;
+    overflow-y: auto;   
+}
+
+.infoline{
+   border-radius: 4px;
+     background-color: #f8f8f8;
+    border-color: #e7e7e7;
+}
+
+.jumbotron.vertical-center {
+  margin-bottom: 0; /* Remove the default bottom margin of .jumbotron */
+}
+
+.link-active{
+ // background-color: red;
+ // broken http://stackoverflow.com/questions/37890584/link-activeclassname-just-plain-not-working
+}
+ 

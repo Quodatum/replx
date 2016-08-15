@@ -6,38 +6,66 @@
 module namespace dr = 'quodatum.repl.rest';
 
 import module namespace cmpx="quodatum.cmpx";
-import module namespace cnf = 'quodatum.app.config' at 'config.xqm';
+
 import module namespace txq = 'quodatum.txq' at "lib/txq.xqm";
-import module namespace dice = 'quodatum.web.dice/v2' at "lib/dice.xqm";
+import module namespace dice = 'quodatum.web.dice/v3' at "lib/dice.xqm";
 import module namespace web = 'quodatum.web.utils4' at 'lib/webutils.xqm';
+import module namespace entity = 'quodatum.models.generated' at 'generated/models.xqm';
 
 declare variable $dr:state as element(state):=db:open("replx","/state.xml")/state;
+declare variable $dr:app :=cmpx:app("replx",map{"offline":fn:false()});
 
+(:~ display main UI via redirect :)
+declare 
+%rest:GET %rest:path("/replx")
+ function dr:redirect(){
+ <rest:redirect>/replx/ui</rest:redirect>
+ };
+ 
+(:~ display home page :) 
+declare 
+%rest:GET %rest:path("/replx/ui")
+%rest:produces("text/html")
+%output:method("html") %output:version("5.0")
+%updating
+function dr:main(){
+   dr:doc()
+};
+
+(:~ all ui paths serve root
+ :)
+declare 
+%rest:GET %rest:path("/replx/ui/{$path=.+}")
+%rest:produces("text/html")
+%output:method("html") %output:version("5.0")
+%updating
+function dr:ui($path){
+     dr:doc()
+};
 (:~
  : The doc home page as html. The UI entry point.
  :)
 declare  
- %rest:GET %rest:path("replx")
- %output:method("html")
- %output:version("5.0")
  %updating
 function dr:doc(){
      (: update model.xqm :)
      let $_:=fn:trace(fn:current-dateTime(),"*** START REPLX: ")
      (: @TODO check db exist app status et :)
-      return (if(db:exists("replx") )
+      return (
+              db:output(dr:render("main.xq",map{})),
+              if(db:exists("replx") )
               then ()
-              else dr:async-uri(fn:resolve-uri("tasks/generate-db.xq"))              
-             , 
-              db:output(dr:render("main.xq",map{}))
+              else 
+              let $query-id:=dr:async-uri(fn:resolve-uri("tasks/generate-db.xq"))
+              return db:output("<--" || $query-id || "-->")             
             )
 };
 
-declare %updating function dr:async-uri($uri as xs:anyURI)
+declare function dr:async-uri($uri as xs:anyURI)
 {
   let $xq:=fn:unparsed-text($uri)
   let $opts:= map {'base-uri':$uri,'cache': false() }
-  return async:update($xq, map{},$opts)
+  return jobs:eval($xq, map{},$opts)
 };
 
 (:~
@@ -48,7 +76,7 @@ declare
 %rest:GET %rest:path("/replx/status")
 function dr:status(){
    <json type="object">
-   <version>{cnf:settings()?version}</version>
+   <version>{$dr:app?version}</version>
    <cacherestxq>{db:system()/globaloptions/cacherestxq/fn:string()}</cacherestxq>
    </json>
 };
@@ -66,7 +94,22 @@ function dr:eval-query(
 ) as xs:string {
   xquery:eval($query)
 };
-
+(:~
+ : List of apps found on file system.
+ :)
+declare
+%rest:GET %rest:path("replx/data/queries/{$id}")
+%rest:query-param("q", "{$q}")  
+%output:method("json")  
+function dr:queries($id,$q ) 
+{
+    let $entity:=$entity:list("query")
+    let $items:=$entity?data()
+    let $f:=$entity?access?id
+    let $item:=$items[$f(.)=$id]
+     (: just one :)
+     return <json objects="json">{dice:json-flds($item,$entity?json)/*}</json>
+};
 
 
 (:~
@@ -84,8 +127,7 @@ function dr:dopost(){
  : html rendering
  :) 
 declare function dr:render($template,$map){
-    let $defaults:=cnf:settings()
-    let $map:=map:merge(($map,$defaults))
+    let $map:=map:merge(($map,$dr:app))
     return (web:method("html"),txq:render(
                 fn:resolve-uri("./templates/" || $template)
                 ,$map

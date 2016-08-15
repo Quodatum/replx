@@ -5,10 +5,16 @@
 : @since mar 2013
 :)
 
-module namespace dice = 'quodatum.web.dice/v2';
-declare default function namespace 'quodatum.web.dice/v2'; 
+module namespace dice = 'quodatum.web.dice/v3';
+declare default function namespace 'quodatum.web.dice/v3'; 
 declare namespace restxq = 'http://exquery.org/ns/restxq';
-import module namespace request = "http://exquery.org/ns/request";
+
+declare variable $dice:default:=map{
+    "start" : 1, (: start index :)
+    "limit" : 30, (: max items :)
+    "sort" : ""
+};
+
 
 (:~ 
  : sort items
@@ -26,18 +32,18 @@ as item()*{
             $items
           else if ($ascending) then
             for $i in $items
-            let $i:=fn:trace($i,"feld " || $fld )
-            order by $fmap($fld)($i) ascending
+           (: let $i:=fn:trace($i,"feld " || $fld ) :)
+            order by $fmap($fld)($i) ascending collation "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"
             return $i
           else
             for $i in $items 
-            order by  $fmap($fld)($i) descending
+            order by  $fmap($fld)($i) descending collation "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"
             return $i
 };
 
 (:~ generate item xml for all fields in map :)
 declare function json-flds($item,$fldmap)
-{
+as element(_){
   json-flds($item,$fldmap,map:keys($fldmap)) 
 };
 
@@ -48,12 +54,12 @@ declare function json-flds($item as element(),
 as element(_){ 
     <_> 
     {for $key in $keys 
-	return element {$key}{
+	return 
     try{
        $fldmap($key)($item)
     }catch * {
-       $err:description
-    }} }
+       element {$key}{$err:description }
+    } }
 	</_>
 };
 
@@ -61,24 +67,26 @@ as element(_){
 (:~ 
  : sort, slice, return json using request parameters
  : @param $items sequence of source items
+ : @param $opts sort and slice values
  :)
-declare function response($items,$entity as map(*),$crumbs){
+declare function response($items,
+                          $entity as map(*),
+                          $opts as map(*))
+ {
   let $total:=fn:count($items)
-  let $sort:=request:parameter("sort","")
-  let $items:= dice:sort($items,map:get($entity,"access"),$sort)
-  
-  let $start:=xs:integer(fn:number(request:parameter("start","0")))
-  let $limit:=xs:integer(fn:number(request:parameter("limit","30")))
+  let $opts:=map:merge(($dice:default,$opts))
+  let $items:= dice:sort($items,map:get($entity,"access"),$opts?sort)
   let $jsonf:= map:get($entity,"json")
   let $fields:=map:keys($jsonf)
-  let $_:=fn:trace($total,"response: ")
+  let $slice:= fn:subsequence($items,$opts?start,$opts?limit)=>fn:trace()
   return 
   <json objects="json _" >
     <total type="number">{$total}</total>
-    <entity>{$entity("name")}</entity>
-    {if($crumbs) then <crumbs type="array">{$crumbs}</crumbs> else() }
+    <range>{$opts?start}-{$opts?start+fn:count($slice)-1}/{$total}</range>
+    <entity>{$entity?name}</entity>
+    {if($opts?crumbs) then <crumbs type="array">{$opts?crumbs}</crumbs> else() }
     <items type="array">
-        {for $item in fn:subsequence($items,1+$start,$limit)
+        {for $item in $slice
         return <_ >{$fields!$jsonf(.)($item)}</_>}
     </items>
   </json> 
@@ -88,6 +96,16 @@ declare function response($items,$entity as map(*),$crumbs){
  : sort, slice, return json
  :)
 declare function response($items,$entity as map(*)){
-    response($items,$entity,())
+    response($items,$entity,map{})
 };
-
+(:~ 
+ : @return  json for item
+ :)
+declare function one($item,$entity as map(*))
+{
+  let $jsonf:= map:get($entity,"json")
+  let $fields:=map:keys($jsonf)
+  return  <json objects="json " >
+  {$fields!$jsonf(.)($item)}
+  </json> 
+};

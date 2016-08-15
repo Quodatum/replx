@@ -1,0 +1,26 @@
+<entity name="query" xmlns="https://github.com/Quodatum/app-doc/entity">
+	<description>An replx query</description>
+	<namespace prefix="xqdoc" uri="http://www.xqdoc.org/1.0"/>
+
+	<fields>
+		<field name="id" type="xs:string">
+			<description>unique id</description>
+			<xpath>@id</xpath>
+		</field>
+		<field name="created" type="xs:string">
+			<description>date</description>
+			<xpath>created</xpath>
+		</field>
+		<field name="query" type="xs:string">
+            <description>query</description>
+            <xpath>query</xpath>
+        </field>
+   
+	</fields>
+	   <views>
+        <view name="filter">name description</view>
+    </views>
+	<iconclass>fa fa-file-code-o</iconclass>
+	<data type="element(query)">collection("replx/queries")/query
+	</data>
+</entity>

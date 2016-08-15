@@ -1,0 +1,17 @@
+<query id="3">
+<!-- parentid -->	
+	<created>2016-03-31T22:21:58.797+01:00</created>
+	<query engine="xquery"><![CDATA[
+declare  variable $uri:="http://odroid-wired:9981/api/epg/events/grid?sort=subtitle&amp;dir=ASC&amp;start=0&amp;limit=300";
+declare function local:movies(){
+ let $r:=http:send-request(<http:request method='get' username="tvheadend"  password="" 
+ auth-method="Basic" send-authorization="true"
+/>, $uri)
+return $r[2]
+};
+let $a:=local:movies()=>json:parse(map{"format":"map"})
+return $a?entries
+]]></query>
+	<result serialization="basex">450015000</result>
+	
+</query>

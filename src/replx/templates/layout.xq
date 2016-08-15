@@ -2,14 +2,13 @@ declare  variable $body external :="{body}";
 declare  variable $version external :="{verson}";
 declare variable $base external :="/replx/";
 declare variable $static external :="/static/replx/";
-declare variable $incl-css as element()* external :=();
-declare variable $incl-js as element()* external :=();
+declare variable $css as element()* external :=();
+declare variable $js as element()* external :=();
 
 
-<html ng-app="replx" ng-controller="AppController">
+<html >
 <head>
 <meta charset="utf-8" />
- <base href="{$base}" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="REPL for BaseX" />
@@ -17,17 +16,10 @@ declare variable $incl-js as element()* external :=();
 <title>REPLx (v{$version})</title>
 <link rel="shortcut icon" href="{$static}replx.png" />
 <!-- component css -->
-{$incl-css}
+{$css}
 
 <link href="{$static}app.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="/static/lib/firebug-lite/4/firebug-lite.js">
-{{
-    overrideConsole: true,
-    startInNewWindow: false,
-    startOpened: false,
-    enableTrace: false
-}}
-</script>
+
 <script type="text/javascript">
   (function(i,s,o,g,r,a,m){{i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){{
   (i[r].q=i[r].q||[]).push(arguments)}},i[r].l=1*new Date();a=s.createElement(o),
@@ -38,13 +30,18 @@ declare variable $incl-js as element()* external :=();
 </script>
 
 </head>
-<body  >
+<body  data-version="{$version}">
     {$body}
     <!-- start component js -->
-    {$incl-js}
+    {$js}
      <!-- app js -->
-     <script src="{$static}feats/term/term.js"></script>
-      <script src="{$static}app.js"></script>
+      <script src="{$static}react-libs/ace-react.js" type="text/babel"></script>
+    <script src="{$static}react-libs/ace.jsx" type="text/babel"></script>
+
+    <script src="{$static}react-libs/react-tabs.js" type="text/javascript"></script>
+   <script src="{$static}react-libs/quodatum-utils.js" type="text/babel"></script>
+  
+      <script src="{$static}app.js" type="text/babel"></script>
   
 </body>
 </html>
