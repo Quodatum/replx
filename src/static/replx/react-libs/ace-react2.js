@@ -28,7 +28,9 @@ class AceEditor2 extends React.Component {
     editor.setOptions({ readOnly:this.props.readOnly,
     					enableSnippets : true,
 					    enableBasicAutocompletion : true,
-					    enableLiveAutocompletion : true
+					    enableLiveAutocompletion : true,
+					    minLines: 3,
+					    maxLines: 12
 					    });
    
   }
@@ -69,7 +71,7 @@ class AceEditor2 extends React.Component {
 	    this.editor = null;
 	}
   render() {
-    const style = { border: '1px solid lightgray',flex:"1 0 fill" ,overflow:"auto",height:"100%"};
+    const style = { border: '1px solid green',flex:"1 0 fill" ,overflow:"auto",height:"100%"};
     const ace={display:'flex',flexDirection:'column'}
       return  <div ref="root" style={style}>
 		          {this.props.code}
@@ -78,7 +80,7 @@ class AceEditor2 extends React.Component {
   }
 }
 
-AceEditor.propTypes={
+AceEditor2.propTypes={
 			    mode: React.PropTypes.string,
 			    content: React.PropTypes.string,
 			    onClick:React.PropTypes.func,
@@ -86,7 +88,7 @@ AceEditor.propTypes={
 			    wrap:React.PropTypes.bool,
 			    readOnly:React.PropTypes.bool
 			  };
-AceEditor.defaultProps={
+AceEditor2.defaultProps={
 			 mode: 'javascript',
 			 code: '//write your code here',
 			 title:null,

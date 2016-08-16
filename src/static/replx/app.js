@@ -69,7 +69,7 @@ class HeaderItem extends React.Component {
 render() {return  <nav className="navbar navbar-default" style={{marginBottom: "0px"}}>
 		<div className="navbar-header"> 
 			<Link to="/replx/ui" className="navbar-brand">
-			REPLX</Link> 
+			repl.X</Link> 
 		</div>
 		<ul className="nav navbar-nav" >
 		<li><Link to="/replx/ui/session" activeClassName="active-link" 
@@ -103,8 +103,13 @@ render() {
 };
 
 class Session extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state={value:"(:~ code here :)"};
+  }
   render() {
-      return  <GrailBody><div><ReactAce />
+      return  <GrailBody><div className="HolyGrail-content">
+      <AceEditor2 title="test" mode="xquery" code={this.state.value}/>
       </div>
       </GrailBody>
       }
@@ -120,7 +125,10 @@ render() {
 };
 
 class ServerError extends React.Component {
-
+  constructor(props) {
+    super(props);
+    this.state={err:"n/a"};
+  }
 	render() {
 		console.log("ServerError",this);
 	    return 	<GrailBody>
@@ -138,7 +146,7 @@ ServerError.contextTypes  = {
 	    onLog: React.PropTypes.func,
 	    axios: React.PropTypes.func
 };
-ServerError.state={err:"n/a"};
+
 
 /**
  * Edit UI and validate on server
@@ -149,6 +157,11 @@ class Try extends React.Component {
         // Manually bind this method to the component instance...
         this.validate = this.validate.bind(this);
         this.onValue = this.onValue.bind(this);
+        this.state = {
+            xml:'<whatever>Am I valid?</whatever>',
+            validations:null,
+            localerr:null
+        };
       }
 
     componentDidMount(){
@@ -213,11 +226,7 @@ Try.contextTypes  = {
         onLog: React.PropTypes.func,
         axios: React.PropTypes.func
 };
-Try.state = {
-    xml:'<whatever>Am I valid?</whatever>',
-    validations:null,
-    localerr:null
-};
+
 
 // admin tools @TODO security
 class Admin extends React.Component {

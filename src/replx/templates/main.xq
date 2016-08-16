@@ -6,7 +6,7 @@ declare variable $uri external :=();
  <div class="container text-center"> 
   <h1 > 
    <i class="fa fa-spin fa-circle-o-notch  fa-fw" aria-hidden="true"></i>
-     <code>REPLX</code> 
+     <code>repl.X</code> 
    </h1>
    <h2> A Repl for XQuery. Please wait...</h2>
 </div>
