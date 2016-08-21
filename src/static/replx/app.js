@@ -89,13 +89,11 @@ var About = class About extends React.Component {
 render() {
 	    var version=document.body.getAttribute("data-version");
 	    return 	<GrailBody>
-	    <PanelItem title="About REPLX" flex="1 0 60em">
-
-	    <h1>ReplX <small>(version:  <Link to="/replx/ui/admin">{version}</Link>)</small></h1>
+	    <PanelItem title={"About REPLX (version:  "+version+")"} flex="1 0 60em">
 	    <p>Provides:</p>
-	    <ul>
-	  
-	    <li>Xquery edit.</li>
+	    <ul>	  
+    	    <li>XQuery evaluation.</li>
+    	    <li><Link to="/replx/ui/admin">admin</Link>.</li>
 	    </ul> 
 	    </PanelItem>
 	    </GrailBody>
@@ -105,16 +103,42 @@ render() {
 class Session extends React.Component {
   constructor(props) {
     super(props);
-    this.state={value:"(:~ code here :)"};
+    this.state={value:"",
+                chat:[]};
+    this.send = this.send.bind(this);
+    this.onValue = this.onValue.bind(this);
   }
+  send(){
+    var that=this;
+    var value=this.state.value;
+    var body=Qs.stringify({value:value});
+    this.context.axios.post("query",body,axios_json)
+    .then(function(r){
+            that.setState({chat:[{created:"?",query:value,result:r.data}]});
+        });
+    }
+  onValue(value){
+    //console.log("value:",value);
+    this.state.value=value;
+ }
   render() {
-      return  <GrailBody><div className="HolyGrail-content">
-      <AceEditor2 title="test" mode="xquery" code={this.state.value}/>
+      var chat=this.state.chat[0];
+      return  <GrailBody>
+      <div className="HolyGrail-content" style={{display:"flex" ,flexDirection: "column"}}>
+            <div style={{flex:"1"}}>The log
+            <div>{chat && chat.query}</div>
+            <div>{chat && chat.result}</div>
+            </div>
+            <AceEditor2 title="test" mode="xquery" code={this.state.value} onValue={this.onValue}/>
+            <div><button className="btn btn-sm btn-info" onClick={this.send}>run</button></div>
       </div>
       </GrailBody>
       }
   };
-  
+Session.contextTypes  = {
+    onLog: React.PropTypes.func,
+    axios: React.PropTypes.func
+};  
 class NoMatch extends React.Component {
 render() {
     return 	<GrailBody><div>404: Not found 

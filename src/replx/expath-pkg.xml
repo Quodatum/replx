@@ -1,11 +1,12 @@
 <package abbrev="replx" name="https://github.com/Quodatum/replx"
-	version="0.1.14" spec="1.0" xmlns="http://expath.org/ns/pkg">
+	version="0.1.15" spec="1.0" xmlns="http://expath.org/ns/pkg">
 	<title>REPLx</title>
 	<dependency name="babel" version="0.13.1"/>
 	<dependency name="ace" version="1.2.4"/>
 	<dependency name="twitter-bootstrap-css" version="3.3.6" />
     <dependency name="font-awesome" version="4.5.0" />
     <dependency name="ex-schematron" version="0.1.3" />
+    <dependency name="react" version="15.3.0"/>
     <dependency name="react-router" version="2.6.1" />
     <dependency name="react-select" version="0.9.1" />
     <dependency name="axios" version="0.13.1" />

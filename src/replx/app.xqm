@@ -73,7 +73,7 @@ declare function dr:async-uri($uri as xs:anyURI)
  :)
 declare 
 %output:method("json") 
-%rest:GET %rest:path("/replx/status")
+%rest:GET %rest:path("/replx/api/status")
 function dr:status(){
    <json type="object">
    <version>{$dr:app?version}</version>
@@ -86,19 +86,21 @@ function dr:status(){
  : @return result of query
  :)
 declare
-  %rest:POST("{$query}")
-  %rest:path("/replx/eval-query")
+  %rest:POST 
+  %rest:query-param("value", "{$value}") 
+  %rest:path("/replx/api/query")
   %output:method("text")
 function dr:eval-query(
-  $query  as xs:string?
+  $value  
 ) as xs:string {
-  xquery:eval($query)
+  let $_:=trace($value,"QUU")
+  return serialize(xquery:eval($value))
 };
 (:~
  : List of apps found on file system.
  :)
 declare
-%rest:GET %rest:path("replx/data/queries/{$id}")
+%rest:GET %rest:path("replx/api/data/queries/{$id}")
 %rest:query-param("q", "{$q}")  
 %output:method("json")  
 function dr:queries($id,$q ) 
@@ -116,7 +118,7 @@ function dr:queries($id,$q )
  :  ping incr counter
  :)
 declare %updating  
-%rest:POST %rest:path("/replx/xq")
+%rest:POST %rest:path("/replx/api/xq")
 %output:method("text")
 function dr:dopost(){
     (replace value of node $dr:state/hits with 1+$dr:state/hits,

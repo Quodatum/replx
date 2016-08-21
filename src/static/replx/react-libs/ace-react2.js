@@ -3,15 +3,15 @@ class AceEditor2 extends React.Component {
 	 constructor(props) {
 		    super(props);
 		    this.gotoLine = this.gotoLine.bind(this);
-		    this.xresize = this.xresize.bind(this);
-		    this.xchange = this.xchange.bind(this);
+		    this.onChange = this.onChange.bind(this);
   }
 
 	 static defaultProps= {readOnly: false }
   
-  xchange(){
-	 console.log("changed");
-  }
+	onChange(e){
+	     //console.log("changed:",e);
+	     this.props.onValue?this.props.onValue(this.editor.getValue()):null;
+	}
   componentDidMount(){
     const node = ReactDOM.findDOMNode(this.refs.root);
     ace.config.set("workerPath", "/static/consignment/ace-workers") 
@@ -22,17 +22,17 @@ class AceEditor2 extends React.Component {
     var session=editor.getSession();
     session.setMode("ace/mode/"+this.props.mode);
     session.setUseWrapMode(this.props.wrap);
-    session.on('change',this.xchange);
+    session.on('change',this.onChange);
     editor.$blockScrolling = Infinity;
     editor.setShowPrintMargin(false);
     editor.setOptions({ readOnly:this.props.readOnly,
     					enableSnippets : true,
 					    enableBasicAutocompletion : true,
-					    enableLiveAutocompletion : true,
-					    minLines: 3,
+					    enableLiveAutocompletion : false,
+					    minLines: 4,
 					    maxLines: 12
 					    });
-   
+    node.focus();
   }
   
   onClick(e){
@@ -46,12 +46,7 @@ class AceEditor2 extends React.Component {
 	 e.scrollToLine(line, true, true, function () {});
 	 e.gotoLine(line, 10, true);
   }
-  xresize(e){	  
-		 var e=this.editor;
-		 e.setOptions({maxLines: 200});
-		 e.resize(true);
-		 
-	  }
+
   componentWillReceiveProps(nextProps){
 	 
 	  if (this.editor && this.editor.getValue() !== nextProps.code) {
