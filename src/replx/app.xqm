@@ -86,16 +86,37 @@ function dr:status(){
  : @return result of query
  :)
 declare
+  %updating
   %rest:POST 
   %rest:query-param("value", "{$value}") 
   %rest:path("/replx/api/query")
   %output:method("text")
-function dr:eval-query(
-  $value  
-) as xs:string {
-  let $_:=trace($value,"QUU")
-  return serialize(xquery:eval($value))
+function dr:eval-query($value  )  {
+  let $id:=1+$dr:state/hits
+  let $result:=(dr:eval1($value),map:entry("id",$id))=>map:merge()=> fn:serialize(map{"method":"json"})
+  return (replace value of node $dr:state/hits with $id,
+          db:output($result))
 };
+
+declare function dr:eval1($xq)
+{
+  let $_:=trace($xq,"dr:eval1")
+  return try{
+    map{"value":serialize(xquery:eval($xq))}
+  }catch * {
+       map{"error":map{
+               "code":$err:code,
+               "description":$err:description,
+               "value":$err:value,
+               "module":$err:module,
+               "line-number":$err:line-number,
+                "column-number":$err:column-number,
+               "additional":$err:additional
+               }
+            }
+  }
+};
+
 (:~
  : List of apps found on file system.
  :)
