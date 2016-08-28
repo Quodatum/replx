@@ -15,6 +15,7 @@ declare function task:ingest($path){
 
 let $db:="replx" 
 let $src:=fn:resolve-uri("../data/replx")
+let $src:=trace($src,"fff")
 return (dbtools:sync-from-files(
                             $db
                            ,$src

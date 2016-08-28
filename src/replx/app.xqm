@@ -92,17 +92,26 @@ declare
   %rest:path("/replx/api/query")
   %output:method("text")
 function dr:eval-query($value  )  {
-  let $id:=1+$dr:state/hits
-  let $result:=(dr:eval1($value),map:entry("id",$id))=>map:merge()=> fn:serialize(map{"method":"json"})
-  return (replace value of node $dr:state/hits with $id,
-          db:output($result))
+  let $id:=1+$dr:state/last-id
+  let $result:=(dr:eval1($value),map:entry("id","q" || $id))=>map:merge()
+  let $doc:=<query id="{$id}">
+                <created>{fn:current-dateTime()}</created>
+                <query engine="xquery">{$value}</query>
+                <result>{$result?result}</result>
+              </query>
+  return (replace value of node $dr:state/last-id with $id,
+          db:replace("replx","queries/q" || $id ||".xml",document{$doc}), 
+          $result=> fn:serialize(map{"method":"json"})=>db:output())
 };
 
+(:~
+ : execute xquery, return map with "result" or ""error"
+ :)
 declare function dr:eval1($xq)
 {
   let $_:=trace($xq,"dr:eval1")
   return try{
-    map{"value":serialize(xquery:eval($xq))}
+    map{"result":serialize(xquery:eval($xq))}
   }catch * {
        map{"error":map{
                "code":$err:code,
@@ -142,8 +151,8 @@ declare %updating
 %rest:POST %rest:path("/replx/api/xq")
 %output:method("text")
 function dr:dopost(){
-    (replace value of node $dr:state/hits with 1+$dr:state/hits,
-            db:output(1+$dr:state/hits))
+    (replace value of node $dr:state/last-id with 1+$dr:state/last-id,
+            db:output(1+$dr:state/last-id))
 };
 
 (:~

@@ -5,7 +5,7 @@
 :)
 
 module namespace dbtools = 'quodatum.dbtools';
-declare default function namespace 'quodatum.dbtools';
+
  
 (:  trailing slash :)
 declare variable $dbtools:webpath:= db:system()/globaloptions/webpath/fn:string()
@@ -15,7 +15,7 @@ declare variable $dbtools:webpath:= db:system()/globaloptions/webpath/fn:string(
 : save all in db to zip
 : no binary yet 
 :)
-declare function zip($dbname as xs:string)
+declare function dbtools:zip($dbname as xs:string)
 as xs:base64Binary{
   let $files:=db:list($dbname)
   let $zip   := archive:create(
@@ -30,8 +30,8 @@ return $zip
 : @param $dbname name of database
 : @param $path file path contain files
 :)
-declare %updating function sync-from-path($dbname as xs:string,$path as xs:string){
-   sync-from-files($dbname,
+declare %updating function dbtools:sync-from-path($dbname as xs:string,$path as xs:string){
+   dbtools:sync-from-files($dbname,
                   $path,
                   file:list($path,fn:true()),
                   hof:id#1)
@@ -45,12 +45,13 @@ declare %updating function sync-from-path($dbname as xs:string,$path as xs:strin
 : @param $files file names from base
 : @param fn function to apply f(fullsrcpath)->anotherpath
 :)
-declare %updating function sync-from-files($dbname as xs:string,
+declare %updating function dbtools:sync-from-files($dbname as xs:string,
                                            $path as xs:string,
                                            $files as xs:string*,
                                          $ingest  )
 {
-let $path:=$path || file:dir-separator()
+let $path:=$path ||"/"
+let $files:=$files!fn:translate(.,"\","/")
 let $files:=fn:filter($files,function($f){file:is-file(fn:concat($path,$f))})
 return if(db:exists($dbname)) then
        (for $d in db:list($dbname) 

@@ -4,6 +4,7 @@ class AceEditor2 extends React.Component {
 		    super(props);
 		    this.gotoLine = this.gotoLine.bind(this);
 		    this.onChange = this.onChange.bind(this);
+		    this.onSubmit = this.onSubmit.bind(this);
   }
 
 	 static defaultProps= {readOnly: false }
@@ -12,6 +13,9 @@ class AceEditor2 extends React.Component {
 	     //console.log("changed:",e);
 	     this.props.onValue?this.props.onValue(this.editor.getValue()):null;
 	}
+	 onSubmit(e){
+	      this.props.onSubmit?this.props.onSubmit():null;
+	  }
   componentDidMount(){
     const node = ReactDOM.findDOMNode(this.refs.root);
     ace.config.set("workerPath", "/static/consignment/ace-workers") 
@@ -32,6 +36,11 @@ class AceEditor2 extends React.Component {
 					    minLines: 4,
 					    maxLines: 12
 					    });
+    editor.commands.addCommand({
+      name: "submit",
+      exec: this.onSubmit,
+      bindKey: {mac: "cmd-enter", win: "ctrl-enter"}
+  });
     node.focus();
   }
   

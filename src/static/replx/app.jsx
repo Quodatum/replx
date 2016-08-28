@@ -9,48 +9,18 @@ var { createHistory } = History;
 var apiBase="/replx/api/";
 
 var axios_json={ headers: {accept: 'application/json'}};
+
 // http://stackoverflow.com/questions/36158945/double-base-path-when-using-push-with-basename/36159382#36159382
 const appHistory = useRouterHistory(createHistory)({
       basename: "/replx/ui"
     });
-class App extends React.Component {
-	 constructor(props) {
-		    super(props);
-		    this.onLog = this.onLog.bind(this);
-		    // customized axios instance
-		    this.axios=axios.create({
-		  	  baseURL: apiBase,
-			  timeout: 10000,
-			  headers: {'X-Custom-Header': 'replx'}
-			});
-		    var that=this;
-			 this.axios.interceptors.response.use(
-				function (response) {
-				    // Do something with response data
-					//console.log("response");
-				    return response;
-				  }, function (error) {
-				    // Do something with response error
-					  console.log("axios error:",error.response);
-					  
-					that.props.history.push({
-						pathname:"/error",
-						state: { err: error.response }})
-				    //return Promise.reject(error);
-				  }
-			);
-		    this.state = { msg:"Welcome to REPLX."}; 
-	 }
-
-  
- 
-  getChildContext() {
-	   return {onLog: this.onLog,
-		       axios:this.axios};
+    
+class App extends DefaultApp {
+	
+  initialState(){
+   this.state = { msg:"Welcome to repl.X"}; 
   }
-  onLog(msg){
-	this.setState({msg:msg});
-  }  
+  
   render() {
     return <div className="HolyGrail" >
 		<header >
@@ -61,25 +31,50 @@ class App extends React.Component {
 		</div>
   }
 };
-App.childContextTypes = {
-    onLog: React.PropTypes.func,
-    axios: React.PropTypes.func
-};	
+
 
 
 
 class HeaderItem extends React.Component {
+ constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+ }
+ 
+ onSubmit(e){
+      e.preventDefault();
+      appHistory.push({
+                        pathname:"/search",
+                        state: { q: "lost it" }
+                        });
+ }            
 render() {return  <nav className="navbar navbar-default" style={{marginBottom: "0px"}}>
 		<div className="navbar-header"> 
-			<Link to="/replx/ui" className="navbar-brand">
+			<Link to="/" className="navbar-brand">
 			repl.X</Link> 
 		</div>
 		<ul className="nav navbar-nav" >
-		<li><Link to="/session" activeClassName="active-link" 
-          title="Enter your own Xquery">Session</Link></li>
-			<li><Link to="/try" activeClassName="active-link" 
-				title="Enter your own XML">Edit</Link></li>
+    		<li><Link to="/session" activeClassName="active-link" 
+              title="Enter your own Xquery">Session</Link></li>
+             <li><Link to="/library" activeClassName="active-link" 
+                title="Validate your own XML">Libraries</Link></li> 
+			<li><Link to="/validate" activeClassName="active-link" 
+				title="Validate your own XML">Validate</Link></li>
 		</ul>
+		<div className="col-sm-3 col-md-3 pull-left">
+                <form className="navbar-form" role="search" onSubmit={this.onSubmit}>
+                    <div className="input-group">
+                        <input type="text"  className="form-control input-sm"
+                            placeholder="NO Search YET" name="q" id="q" />
+                        <div className="input-group-btn">
+                            <button className="btn btn-default input-sm" type="submit">
+                                <i className="glyphicon glyphicon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
 		<ul className="nav navbar-nav" style={{float:"right"}}>
 			<li><Link to="/about" activeClassName="active-link" >About</Link></li>
 		</ul>		
@@ -110,37 +105,19 @@ render() {
     </GrailBody>
     }
 };
-
-class NoMatch extends React.Component {
+class Library extends React.Component {
 render() {
-    return 	<GrailBody><div>404: Not found 
-    <Link to="/replx/ui">Home</Link>
+    return  <GrailBody><div>Library here
     </div>
     </GrailBody>
-	}
+    }
 };
-
-class ServerError extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state={err:"n/a"};
-  }
-	render() {
-		console.log("ServerError",this);
-	    return 	<GrailBody>
-	    <div>Server Error
-	    <Link to="/replx/ui">Home</Link>
-	    <pre>
-	    {this.props.location.state?this.props.location.state.err.data:"No error found"}
-	    </pre>
-	    </div>
-	    
-	    </GrailBody>
-		}
-};
-ServerError.contextTypes  = {
-	    onLog: React.PropTypes.func,
-	    axios: React.PropTypes.func
+class Search extends React.Component {
+render() {
+    return  <GrailBody>
+    <div>Search here</div>
+    </GrailBody>
+    }
 };
 
 // admin tools @TODO security
@@ -216,10 +193,12 @@ ReactDOM.render( <Router history={appHistory}>
  					<Route path="/" component={App} >
  					    <IndexRoute component={About} />
  						<Route path="about" component={About} />
- 					   <Route path="try" component={Try} /> 
- 					   <Route path="session" component={Session} />
+ 					   <Route path="session" component={Session} /> 
+ 					     <Route path="validate" component={Try} /> 
+ 					   <Route path="library" component={Library} />
  					   	<Route path="admin" component={Admin} />
  					   	  <Route path="treetest" component={TreeTest} />
+ 					   	<Route path="search" component={Search} />  
  					   	<Route path="error" component={ServerError} />
  					   <Route path="*" component={NoMatch}/>
  					</Route>

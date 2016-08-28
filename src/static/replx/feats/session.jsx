@@ -27,10 +27,11 @@ class Session extends React.Component {
       <div className="HolyGrail-content" style={{display:"flex" ,flexDirection: "column"}}>
             <div style={{flex:"1"}}>The log
             <div style={{marginLeft:"5em"}}>{chat && chat.query}</div>
-            <div><pre>{chat && chat.result.value}</pre></div>
+            <div><pre>{chat && chat.result.result}</pre></div>
 
             </div>
-            <AceEditor2 title="test" mode="xquery" code={this.state.value} onValue={this.onValue}/>
+            <AceEditor2 title="test" mode="xquery" 
+            code={this.state.value} onValue={this.onValue} onSubmit={this.send}/>
             <div><button className="btn btn-sm btn-info" onClick={this.send}>run</button></div>
       </div>
       </GrailBody>
