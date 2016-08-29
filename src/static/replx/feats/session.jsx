@@ -14,25 +14,33 @@ class Session extends React.Component {
     this.context.axios.post("query",body,axios_json)
     .then(function(r){
             console.log("send",r);
-            that.setState({chat:[{created:"?",query:value,result:r.data}]});
+            that.setState(function(previousState, currentProps){
+            var u=previousState.chat.slice(0);
+            u.push({created:new Date(),query:value,result:r.data});
+            console.log(u);
+            return {chat:u};
         });
+    })
     }
   onValue(value){
     //console.log("value:",value);
     this.state.value=value;
  }
   render() {
-      var chat=this.state.chat[0];
+    var rows = [],that=this;
+    this.state.chat.forEach(function(chat) {
+      rows.push(<SessionItem chat={chat} key={"Q"+chat.result.id} />);
+    });
       return  <GrailBody>
       <div className="HolyGrail-content" style={{display:"flex" ,flexDirection: "column"}}>
-            <div style={{flex:"1"}}>The log
-            <div style={{marginLeft:"5em"}}>{chat && chat.query}</div>
-            <div><pre>{chat && chat.result.result}</pre></div>
-
+            <div style={{flex:"1"}}>
+              <div>The log {this.state.chat.length}</div>
+              <div>{rows}</div>
             </div>
             <AceEditor2 title="test" mode="xquery" 
             code={this.state.value} onValue={this.onValue} onSubmit={this.send}/>
             <div><button className="btn btn-sm btn-info" onClick={this.send}>run</button></div>
+            
       </div>
       </GrailBody>
       }
@@ -42,11 +50,11 @@ Session.contextTypes  = {
     axios: React.PropTypes.func
 };
   
-class SessionLog extends React.Component {
+class SessionItem extends React.Component {
 render(){
     return <div>
             <div style={{marginLeft:"5em"}}>{this.props.chat.query}</div>
-            <div><pre>{this.props.chat.result.value}</pre></div>
+            <div><pre>{this.props.chat.result.result}</pre></div>
         </div>      
 }
 };
