@@ -16,9 +16,10 @@ const appHistory = useRouterHistory(createHistory)({
     });
     
 class App extends DefaultApp {
-	
-  initialState(){
-   this.state = { msg:"Welcome to repl.X"}; 
+	 constructor(props, context) {
+    super(props, context);
+   this.state = { msg:"Welcome to repl.X +",
+                  q:"in app"}; 
   }
   
   render() {
@@ -38,17 +39,19 @@ class App extends DefaultApp {
 class HeaderItem extends React.Component {
  constructor(props) {
     super(props);
-    this.onSubmit = this.onSubmit.bind(this);
+    this.onSearch = this.onSearch.bind(this);
+    this.state={q: "lost it??"};
  }
  
- onSubmit(e){
+   onSearch(e){
       e.preventDefault();
       appHistory.push({
                         pathname:"/search",
-                        state: { q: "lost it" }
+                        state: this.state
                         });
  }            
-render() {return  <nav className="navbar navbar-default" style={{marginBottom: "0px"}}>
+render() {return  <nav className="navbar navbar-default navbar-fixed-top" style={{marginBottom: "0px"}}>
+        <div className="container">
 		<div className="navbar-header"> 
 			<Link to="/" className="navbar-brand">
 			repl.X</Link> 
@@ -61,8 +64,8 @@ render() {return  <nav className="navbar navbar-default" style={{marginBottom: "
 			<li><Link to="/validate" activeClassName="active-link" 
 				title="Validate your own XML">Validate</Link></li>
 		</ul>
-		<div className="col-sm-3 col-md-3 pull-left">
-                <form className="navbar-form" role="search" onSubmit={this.onSubmit}>
+		<div className="col-sm-3 col-md-3 pull-right">
+                <form className="navbar-form" role="search" onSubmit={this.onSearch}>
                     <div className="input-group">
                         <input type="text"  className="form-control input-sm"
                             placeholder="NO Search YET" name="q" id="q" />
@@ -77,7 +80,8 @@ render() {return  <nav className="navbar navbar-default" style={{marginBottom: "
             </div>
 		<ul className="nav navbar-nav" style={{float:"right"}}>
 			<li><Link to="/about" activeClassName="active-link" >About</Link></li>
-		</ul>		
+		</ul>
+		</div>		
 	</nav>
     }
 };
@@ -114,93 +118,26 @@ render() {
 };
 class Search extends React.Component {
 render() {
+    var q=this.props.location.state.q;
+    console.log("search",this.props);
     return  <GrailBody>
-    <div>Search here</div>
+    <div>Search here: {q}</div>
     </GrailBody>
     }
 };
-
-// admin tools @TODO security
-class Admin extends React.Component {
-	 constructor(props) {
-		    super(props);
-		    this.loadEls = this.loadEls.bind(this);	
-		    this.onChange = this.onChange.bind(this);
-		    this.onValueClick = this.onValueClick.bind(this);
-		    this.state = {
-	              content:"",
-	              mode:"xquery",
-	              value:"one"
-		    };
-	 }
-	 
-	 
-	 onChange(value){
-		 this.context.onLog("on change");
-		 this.setState({
-				value: value,
-	});
-	 }
-	 
-	 onValueClick(option){
-	     console.log("value",option);
-		 this.context.onLog("on value control: "+option.label);
-	 }
-	 
-	 loadEls(q,callback){
-		 this.context.axios.get("elements",axios_json)
-	    	.then(function(r){
-	    		var opts=r.data.items;
-	    		
-	    		//console.log(r,opts,callback);
-	    		callback(null,{options:opts,complete:true});
-	    	})
-	 }
-	 
-	 scan(){
-		 var task="scan";
-		 this.context.axios.post(apiBase+"task",Qs.stringify({task: task}))
-		 .then(function(r){
-			 alert("not yet:"+task);
-		 })
-	 }
-	 
-	render() {
-		 return <GrailBody>
-		  <PanelItem title="Admin Tasks" flex="0 0 20em">
-		  	<button onClick={this.scan}>Rescan db</button>
-		  	<hr/>
-		  	 <hr/>
-		  	<Select.Async multi={false} value={this.state.value} 
-		  	onChange={this.onChange} onValueClick={this.onValueClick}  autoBlur={true}
-		  		 loadOptions={this.loadEls} minimumInput={1} backspaceRemoves={false} />
-	    	
-		  </PanelItem>
-		  <div  className="HolyGrail-content">
-		    	<AceEditor code={this.state.content} mode={this.state.mode} wrap={true} readOnly={false} />
-		   </div>
-		  </GrailBody>
-	}
-};
-Admin.contextTypes  = {
-	    onLog: React.PropTypes.func,
-	    axios: React.PropTypes.func
-};
-
-
 	
 ReactDOM.render( <Router history={appHistory}>
  					<Route path="/" component={App} >
  					    <IndexRoute component={About} />
  						<Route path="about" component={About} />
- 					   <Route path="session" component={Session} /> 
- 					     <Route path="validate" component={Try} /> 
- 					   <Route path="library" component={Library} />
+ 					    <Route path="session" component={Session} /> 
+ 					    <Route path="validate" component={Try} /> 
+ 					    <Route path="library" component={Library} />
  					   	<Route path="admin" component={Admin} />
- 					   	  <Route path="treetest" component={TreeTest} />
+ 					   	<Route path="treetest" component={TreeTest} />
  					   	<Route path="search" component={Search} />  
  					   	<Route path="error" component={ServerError} />
- 					   <Route path="*" component={NoMatch}/>
+ 					    <Route path="*" component={NoMatch}/>
  					</Route>
  				</Router>
  ,document.getElementById('target'));

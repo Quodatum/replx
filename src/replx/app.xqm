@@ -81,7 +81,7 @@ function dr:status(){
    </json>
 };
 (:~
- : Evaluates a query and returns the result.
+ : Evaluates a query and stores in database and returns the result.
  : @param  $query  query
  : @return result of query
  :)
@@ -127,13 +127,13 @@ declare function dr:eval1($xq)
 };
 
 (:~
- : List of apps found on file system.
+ : return query with $id.
  :)
 declare
 %rest:GET %rest:path("replx/api/data/queries/{$id}")
 %rest:query-param("q", "{$q}")  
 %output:method("json")  
-function dr:queries($id,$q ) 
+function dr:get-query($id,$q ) 
 {
     let $entity:=$entity:list("query")
     let $items:=$entity?data()
@@ -142,7 +142,19 @@ function dr:queries($id,$q )
      (: just one :)
      return <json objects="json">{dice:json-flds($item,$entity?json)/*}</json>
 };
-
+(:~
+ : return queries
+ :)
+declare
+%rest:GET %rest:path("replx/api/data/queries")
+%rest:query-param("q", "{$q}")  
+%output:method("json")  
+function dr:queries($q ) 
+{
+    let $entity:=$entity:list("query")
+    let $items:=$entity?data()
+    return dice:response($items,$entity)
+};
 
 (:~
  :  ping incr counter

@@ -15,7 +15,10 @@
             <description>query</description>
             <xpath>query</xpath>
         </field>
-   
+        <field name="result" type="xs:string">
+            <description>result</description>
+            <xpath>result</xpath>
+        </field>
 	</fields>
 	   <views>
         <view name="filter">name description</view>

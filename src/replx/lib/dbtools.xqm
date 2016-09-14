@@ -48,7 +48,7 @@ declare %updating function dbtools:sync-from-path($dbname as xs:string,$path as 
 declare %updating function dbtools:sync-from-files($dbname as xs:string,
                                            $path as xs:string,
                                            $files as xs:string*,
-                                         $ingest  )
+                                         $ingest as function(xs:string) as item()* )
 {
 let $path:=$path ||"/"
 let $files:=$files!fn:translate(.,"\","/")

@@ -75,7 +75,7 @@ class AceEditor2 extends React.Component {
 	    this.editor = null;
 	}
   render() {
-    const style = { border: '1px solid green',flex:"1 0 fill" ,overflow:"auto",height:"100%"};
+    const style = {flex:"1 0 fill" ,overflow:"auto",height:"100%"};
     const ace={display:'flex',flexDirection:'column'}
       return  <div ref="root" style={style}>
 		          {this.props.code}

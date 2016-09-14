@@ -1,5 +1,5 @@
 (: entity access maps 
- : auto generated from xml files in entities folder at: 2016-08-28T21:37:17.646+01:00 
+ : auto generated from xml files in entities folder at: 2016-09-06T22:53:54.605+01:00 
  :)
 
 module namespace entity = 'quodatum.models.generated';
@@ -156,7 +156,8 @@ declare variable $entity:list:=map {
      "access": map{ 
        "created": function($_ as element()) as xs:string {$_/created },
        "id": function($_ as element()) as xs:string {$_/@id },
-       "query": function($_ as element()) as xs:string {$_/query } },
+       "query": function($_ as element()) as xs:string {$_/query },
+       "result": function($_ as element()) as xs:string {$_/result } },
     
      "filter": function($item,$q) as xs:boolean{ 
          some $e in ( ) satisfies
@@ -180,6 +181,12 @@ declare variable $entity:list:=map {
                         let $d:=fn:data($_/query)
                         return if($d)
                               then element query {  $d } 
+                              else () },
+           "result": function($_ as element()) as element(result)? {
+            (: string :)
+                        let $d:=fn:data($_/result)
+                        return if($d)
+                              then element result {  $d } 
                               else () } },
       "data": function() as element(query)*
        { collection("replx/queries")/query }
