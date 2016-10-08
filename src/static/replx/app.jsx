@@ -2,7 +2,7 @@
 Consignment validator app
 abunce july 2016
 */
-
+var Button=ReactBootstrap.Button;
 var { Router, Route, IndexRoute, Link, useRouterHistory} = ReactRouter;
 var { createHistory } = History;
 
@@ -14,12 +14,27 @@ var axios_json={ headers: {accept: 'application/json'}};
 const appHistory = useRouterHistory(createHistory)({
       basename: "/replx/ui"
     });
-    
+
+// https://github.com/ReactTraining/react-router/issues/394#issuecomment-220221604    
+function hashLinkScroll() {
+  const { hash } = window.location;
+  if (hash !== '') {
+    // Push onto callback queue so it runs after the DOM is updated,
+    // this is required when navigating from a different page so that
+    // the element is rendered on the page before trying to getElementById.
+    setTimeout(() => {
+      const id = hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) element.scrollIntoView();
+    }, 0);
+  }
+} 
+   
 class App extends DefaultApp {
 	 constructor(props, context) {
-    super(props, context);
-   this.state = { msg:"Welcome to repl.X +",
-                  q:"in app"}; 
+        super(props, context);
+        this.state = { msg:"Welcome to repl.X +",
+                      q:"in app"}; 
   }
   
   render() {
@@ -36,62 +51,12 @@ class App extends DefaultApp {
 
 
 
-class HeaderItem extends React.Component {
- constructor(props) {
-    super(props);
-    this.onSearch = this.onSearch.bind(this);
-    this.state={q: "lost it??"};
- }
- 
-   onSearch(e){
-      e.preventDefault();
-      appHistory.push({
-                        pathname:"/search",
-                        state: this.state
-                        });
- }            
-render() {return  <nav className="navbar navbar-default navbar-fixed-top" style={{marginBottom: "0px"}}>
-        <div className="container">
-		<div className="navbar-header"> 
-			<Link to="/" className="navbar-brand">
-			repl.X</Link> 
-		</div>
-		<ul className="nav navbar-nav" >
-    		<li><Link to="/session" activeClassName="active-link" 
-              title="Enter your own Xquery">Session</Link></li>
-             <li><Link to="/library" activeClassName="active-link" 
-                title="Validate your own XML">Libraries</Link></li> 
-			<li><Link to="/validate" activeClassName="active-link" 
-				title="Validate your own XML">Validate</Link></li>
-		</ul>
-		<div className="col-sm-3 col-md-3 pull-right">
-                <form className="navbar-form" role="search" onSubmit={this.onSearch}>
-                    <div className="input-group">
-                        <input type="text"  className="form-control input-sm"
-                            placeholder="NO Search YET" name="q" id="q" />
-                        <div className="input-group-btn">
-                            <button className="btn btn-default input-sm" type="submit">
-                                <i className="glyphicon glyphicon-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-		<ul className="nav navbar-nav" style={{float:"right"}}>
-			<li><Link to="/about" activeClassName="active-link" >About</Link></li>
-		</ul>
-		</div>		
-	</nav>
-    }
-};
-
 
 var About = class About extends React.Component {
 render() {
 	    var version=document.body.getAttribute("data-version");
 	    return 	<GrailBody>
-	    <PanelItem title={"About REPLX (version:  "+version+")"} flex="1 0 60em">
+	    <PanelItem title={"About REPL.x (version:  "+version+")"} flex="1 0 60em">
 	    <p>Provides:</p>
 	    <ul>	  
     	    <li>XQuery evaluation.</li>
@@ -102,6 +67,7 @@ render() {
 	    </GrailBody>
     }
 };
+
 class TreeTest extends React.Component {
 render() {
     return  <GrailBody><div>Tree here
@@ -109,13 +75,16 @@ render() {
     </GrailBody>
     }
 };
+
 class Library extends React.Component {
 render() {
     return  <GrailBody><div>Library here
+     <Button bsStyle="warning">Warning</Button>
     </div>
     </GrailBody>
     }
 };
+
 class Search extends React.Component {
 render() {
     var q=this.props.location.state.q;
@@ -126,7 +95,7 @@ render() {
     }
 };
 	
-ReactDOM.render( <Router history={appHistory}>
+ReactDOM.render( <Router history={appHistory}  onUpdate={hashLinkScroll}>
  					<Route path="/" component={App} >
  					    <IndexRoute component={About} />
  						<Route path="about" component={About} />
