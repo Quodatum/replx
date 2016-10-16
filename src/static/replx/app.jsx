@@ -1,7 +1,9 @@
 /*
-Consignment validator app
-abunce july 2016
+replx app
+abunce sept 2016
 */
+
+
 var Button=ReactBootstrap.Button;
 var { Router, Route, IndexRoute, Link, useRouterHistory} = ReactRouter;
 var { createHistory } = History;
@@ -78,8 +80,22 @@ render() {
 
 class Library extends React.Component {
 render() {
-    return  <GrailBody><div>Library here
-     <Button bsStyle="warning">Warning</Button>
+    return  <GrailBody><div>Library sources:
+   
+     <ReactTabs.Tabs>
+          <ReactTabs.TabList>
+            <ReactTabs.Tab><CountLabel count={4} title="NVDL messages">XPath</CountLabel></ReactTabs.Tab>
+            <ReactTabs.Tab><CountLabel count={5} labelCls="label label-info"
+                title="Schematron messages svrl:successful-report messages">XQuery</CountLabel></ReactTabs.Tab>
+            <ReactTabs.Tab><CountLabel count={5}
+            title="Schematron messages svrl:failed-assert messages">Repository</CountLabel></ReactTabs.Tab> 
+          </ReactTabs.TabList>
+          <ReactTabs.TabPanel>content</ReactTabs.TabPanel>    
+          <ReactTabs.TabPanel>content1</ReactTabs.TabPanel>
+          <ReactTabs.TabPanel>content2
+            <Button bsStyle="warning">Warning</Button>
+          </ReactTabs.TabPanel>
+     </ReactTabs.Tabs>
     </div>
     </GrailBody>
     }
@@ -87,8 +103,9 @@ render() {
 
 class Search extends React.Component {
 render() {
-    var q=this.props.location.state.q;
+   
     console.log("search",this.props);
+     var q=this.props.location.query.q;
     return  <GrailBody>
     <div>Search here: {q}</div>
     </GrailBody>

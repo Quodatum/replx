@@ -1,5 +1,5 @@
 (: entity access maps 
- : auto generated from xml files in entities folder at: 2016-09-06T22:53:54.605+01:00 
+ : auto generated from xml files in entities folder at: 2016-10-09T22:47:34.895+01:00 
  :)
 
 module namespace entity = 'quodatum.models.generated';
@@ -157,7 +157,8 @@ declare variable $entity:list:=map {
        "created": function($_ as element()) as xs:string {$_/created },
        "id": function($_ as element()) as xs:string {$_/@id },
        "query": function($_ as element()) as xs:string {$_/query },
-       "result": function($_ as element()) as xs:string {$_/result } },
+       "result": function($_ as element()) as xs:string {$_/substring(result,0,1000) },
+       "resultlength": function($_ as element()) as xs:integer {$_/string-length(result) } },
     
      "filter": function($item,$q) as xs:boolean{ 
          some $e in ( ) satisfies
@@ -184,9 +185,15 @@ declare variable $entity:list:=map {
                               else () },
            "result": function($_ as element()) as element(result)? {
             (: string :)
-                        let $d:=fn:data($_/result)
+                        let $d:=fn:data($_/substring(result,0,1000))
                         return if($d)
                               then element result {  $d } 
+                              else () },
+           "resultlength": function($_ as element()) as element(resultlength)? {
+            (: number :)
+                        let $d:=fn:data($_/string-length(result))
+                        return if($d)
+                              then element resultlength { attribute type {'number'}, $d } 
                               else () } },
       "data": function() as element(query)*
        { collection("replx/queries")/query }

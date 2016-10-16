@@ -12,14 +12,10 @@ class Session extends React.Component {
   // request session values
   componentDidMount(){
             var that=this;
-            console.log("samples",this.props,that.context);
             that.context.onLog("Requesting queries...");
             that.context.axios.get("data/queries"+this.props.location.search,axios_json)
             .then(function(r){
-                    console.log(r.data);
                     var u=that.state.chat.slice(0);
-                    u.concat(r.data.items); 
-                     console.log("£££",u);
                      that.setState({chat:r.data.items});
                      that.context.onLog("queries loaded.");
                      })
@@ -61,7 +57,7 @@ class Session extends React.Component {
  }
   render() {
     var rows = [],that=this;
-    console.log("************",this.state.chat);
+    //console.log("************",this.state.chat);
     this.state.chat.forEach(function(chat) {
       rows.push(<SessionItem chat={chat} key={chat.id} onClick={that.onClick.bind(null,chat.id)}/>);
     });
@@ -75,15 +71,15 @@ class Session extends React.Component {
               <div className="acewrap container-fluid" style={{overflow:"auto"}}>{rows}</div>
               </div>
             </div>
-              <div   style={{border: '1px solid green',backgroundColor:"#d5f5e3"}} id="run">
-               <div className="btn-group" role="group" aria-label="Clear">
+              <div   style={{border: '1px solid green',backgroundColor:"#d5f5e3"}} id="run">   
+              <AceEditor2 title="test" mode="xquery" 
+                  code={this.state.value} onValue={this.onValue} onSubmit={this.send}/>
+                 <div className="btn-group" role="group" aria-label="Clear">
                   <button className="btn btn-sm btn-info" onClick={this.onClear}>clear</button>
                </div>
                <div className="btn-group" role="group" aria-label="Run">
                  <button className="btn btn-sm btn-info" onClick={this.send}>run</button>
-               </div>
-              <AceEditor2 title="test" mode="xquery" 
-                  code={this.state.value} onValue={this.onValue} onSubmit={this.send}/>
+               </div>  
               </div>
       </div>
       </GrailBody>

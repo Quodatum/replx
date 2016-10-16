@@ -17,7 +17,11 @@
         </field>
         <field name="result" type="xs:string">
             <description>result</description>
-            <xpath>result</xpath>
+            <xpath>substring(result,0,1000)</xpath>
+        </field>
+         <field name="resultlength" type="xs:integer">
+            <description>result</description>
+            <xpath>string-length(result)</xpath>
         </field>
 	</fields>
 	   <views>

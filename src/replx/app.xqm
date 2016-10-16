@@ -167,6 +167,26 @@ function dr:dopost(){
             db:output(1+$dr:state/last-id))
 };
 
+(:~ elements 
+ : test of select function todo FIX
+ :)
+declare 
+%rest:GET %rest:path("/replx/api/elements")
+%rest:query-param("q", "{$q}")
+%rest:produces("application/json")
+%output:method("json") 
+function dr:elements($q){
+   let $els:=doc("cup-models-reports/elements-report.xml")/elements/element
+   return <json   type="object" >
+            <items type="array">{
+                for $e in $els
+                return <_ type="object">
+                 <label>{$e/@name/string() || " (" || $e/@count/string()|| ")"}</label>
+                 <value>{$e/@name/string()}</value>
+                </_>
+            }</items>
+          </json>
+};
 (:~
  : html rendering
  :) 

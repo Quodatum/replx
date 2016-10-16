@@ -34,19 +34,19 @@ declare variable $js as element()* external :=();
     {$body}
     <!-- start component js -->
     {$js}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react-router-bootstrap/0.23.1/ReactRouterBootstrap.js"></script>
      <!-- app js -->
       <script src="{$static}react-libs/ace-react.js" type="text/babel"></script>
        <script src="{$static}react-libs/ace-react2.js" type="text/babel"></script>
    <!-- <script src="{$static}react-libs/ace.jsx" type="text/babel"></script> -->
-
-    <script src="{$static}react-libs/quodatum-utils.js" type="text/babel"></script>
     <script src="{$static}react-libs/react-tabs.js" type="text/javascript"></script>
 
    <script src="{$static}react-libs/quodatum-utils.js" type="text/babel"></script>
      <script src="{$static}navbar.jsx" type="text/babel"></script>
-    <script src="{$static}feats/admin.jsx" type="text/babel"></script>
-   <script src="{$static}feats/try.jsx" type="text/babel"></script>
-    <script src="{$static}feats/session.jsx" type="text/babel"></script>
-    <script src="{$static}app.jsx" type="text/babel"></script>
+ <script src="{$static}feats/session.jsx" type="text/babel"></script>
+ <script src="{$static}feats/try.jsx" type="text/babel"></script>
+ <script src="{$static}feats/admin.jsx" type="text/babel"></script>
+ <script src="{$static}app.jsx" type="text/babel"></script>
+  <!--  <script src="{$static}bundle.js" ></script> -->
 </body>
 </html>

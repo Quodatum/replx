@@ -1,66 +1,69 @@
 var {Button,Nav,Navbar,NavItem,NavDropdown,FormGroup,FormControl,InputGroup,MenuItem}=ReactBootstrap;
+var {LinkContainer,IndexLinkContainer}=ReactRouterBootstrap;
 
 class HeaderItem extends React.Component {
  constructor(props) {
     super(props);
-    this.onSearch = this.onSearch.bind(this);
-    this.state={q: "lost it??"};
- }
- 
+    this.state={q: ""};
+ } 
+  handleSearchChange(e) {
+    this.setState({q: e.target.value});
+  } 
    onSearch(e){
-      e.preventDefault();
-      appHistory.push({
-                        pathname:"/search",
-                        state: this.state
-                        });
+    var q=this.state.q
+    e.preventDefault();
+    if(q) appHistory.push({ pathname:"/search",query: {q:q}});
  }            
 render() {return  <Navbar >
     <Navbar.Header>
       <Navbar.Brand>
-       <Link to="/" >
+       <a href="/replx" >
             REPL.x
             <img src="/static/replx/logo.svg" style={{width: "20px", height: "20px"}}
                     className="pull-left" />
-            </Link> 
+            </a> 
       </Navbar.Brand>
     </Navbar.Header>
     <Nav>
-     <NavItem eventKey={1} href="#"><Link to="/session" activeClassName="active-link" 
-        title="Enter your own Xquery">Session</Link>
-      </NavItem>
-
-     <NavItem eventKey={2} href="#">
-        <Link to="/library" activeClassName="active-link" 
-                title="Validate your own XML">Libraries</Link>
-     </NavItem>
-     <NavItem eventKey={3} href="#">         
-            <Link to="/validate" activeClassName="active-link" 
-                title="Validate your own XML">Validate</Link>
-    </NavItem>
+    <IndexLinkContainer to="/session"    title="Enter your own Xquery">
+     <NavItem eventKey={1} href="#">Session</NavItem>
+    </IndexLinkContainer>
+    
+    <IndexLinkContainer to="/library"   title="XQuery libraries">
+     <NavItem eventKey={2} href="#">Libraries   </NavItem>
+     </IndexLinkContainer>
+     
+     <IndexLinkContainer to="/validate" title="Validate your own XML">
+        <NavItem eventKey={3} href="#">Validate</NavItem>
+    </IndexLinkContainer>
      </Nav>
-    <Nav> 
-      <Navbar.Form >
-        <FormGroup>
-        <InputGroup>
-          <FormControl type="text" placeholder="Search - not yet" />
-            <InputGroup.Button>
-            <Button onClick={this.onSearch}>                   
-             <i className="glyphicon glyphicon-search"></i>  
-             </Button>           
-           </InputGroup.Button>
-        </InputGroup>
-        </FormGroup>
-      </Navbar.Form> 
-    </Nav>
-    <Nav pullRight>
+     
+     <Nav pullRight>
      <NavDropdown eventKey={3} title="About" id="basic-nav-dropdown">
         <MenuItem eventKey={3.1}>Action</MenuItem>
         <MenuItem eventKey={3.2}>Another action</MenuItem>
-        <MenuItem eventKey={3.3}>Something else here</MenuItem>
+        <MenuItem eventKey={3.3}>doc</MenuItem>
         <MenuItem divider />
-        <MenuItem eventKey={3.3}>Separated link</MenuItem>
+        <LinkContainer to="/about"  title="About REPL.x">
+            <MenuItem eventKey={3.3}>About</MenuItem>
+        </LinkContainer> 
       </NavDropdown>
     </Nav>
-    </Navbar>
+    
+          <form className='navbar-form' action="" onSubmit={(e) => this.onSearch(e)}>
+           <InputGroup>
+           <FormControl type="text" placeholder="Search - not yet"  
+           value={this.state.q} onChange={(e) => this.handleSearchChange(e)}/>
+            <InputGroup.Button>
+            <Button  type='submit'>
+                <i className="glyphicon glyphicon-search"></i>
+              </Button>           
+           </InputGroup.Button>
+            </InputGroup>
+          </form>
+ </Navbar>   
+ 
+   
+ 
     }
 };
