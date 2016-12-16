@@ -1,5 +1,5 @@
 <package abbrev="replx" name="https://github.com/Quodatum/replx"
-	version="0.2.16" spec="1.0" xmlns="http://expath.org/ns/pkg">
+	version="0.2.22" spec="1.0" xmlns="http://expath.org/ns/pkg">
 	<title>repl.x</title>
 	<dependency name="babel" version="0.13.1"/>
 	<dependency name="ace" version="1.2.4"/>

@@ -18,7 +18,7 @@ class AceEditor2 extends React.Component {
 	  }
   componentDidMount(){
     const node = ReactDOM.findDOMNode(this.refs.root);
-    ace.config.set("workerPath", "/static/consignment/ace-workers") 
+    ace.config.set("workerPath", "/static/replx/ace-workers") 
     const editor = ace.edit(node);
     this.editor=editor;
     var theme="chrome";
